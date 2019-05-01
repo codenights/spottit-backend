@@ -1,6 +1,5 @@
 import { Spot } from '../../../../domain/model'
-import * as usecases from '../../../../domain/usecase'
-import { SpotInMemory } from '../../../../infrastructure/repository/SpotInMemory'
+import { GraphlQlContext } from '../types'
 
 interface CreateSpotInput {
   input: {
@@ -10,12 +9,16 @@ interface CreateSpotInput {
 }
 
 interface MutationResolver {
-  createSpot: (parent: null, args: CreateSpotInput) => Promise<Spot>
+  createSpot: (
+    parent: null,
+    args: CreateSpotInput,
+    context: GraphlQlContext
+  ) => Promise<Spot>
 }
 
 const Mutation: MutationResolver = {
-  createSpot: (_parent, { input }) =>
-    usecases.createSpot(SpotInMemory())({
+  createSpot: (_parent, { input }, context) =>
+    context.usecases.createSpot({
       name: input.name,
       description: input.description,
     }),

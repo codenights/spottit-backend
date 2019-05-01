@@ -8,10 +8,18 @@ type CreateSpotOptions = {
   description?: string
 }
 
-export const createSpot = (spotRepository: SpotRepository) => ({
+interface Options {
+  spotRepository: SpotRepository
+}
+
+export interface CreateSpot {
+  (options: CreateSpotOptions): Promise<Spot>
+}
+
+export const createSpot = ({ spotRepository }: Options): CreateSpot => ({
   name,
   description,
-}: CreateSpotOptions): Promise<Spot> => {
+}) => {
   const id = uuid.v4()
   const spot = new Spot(id, name, description)
 

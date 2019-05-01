@@ -1,13 +1,33 @@
 import Koa from 'koa'
-import { ApolloServer } from 'apollo-server-koa'
 import dotenv from 'dotenv'
+import { ApolloServer } from 'apollo-server-koa'
+import { createContainer, asFunction } from 'awilix'
 
 import { schema } from './graphql'
+import { SpotInMemory } from '../repository/SpotInMemory'
+import { createSpot } from '../../domain/usecase'
+import { GraphlQlContext } from './graphql/types'
 
 dotenv.config()
 
 const port = process.env.PORT
-const server = new ApolloServer({ schema })
+const container = createContainer()
+
+container.register({
+  spotRepository: asFunction(SpotInMemory).singleton(),
+  createSpot: asFunction(createSpot),
+})
+
+const server = new ApolloServer({
+  schema,
+  context: (): GraphlQlContext => {
+    return {
+      usecases: {
+        createSpot: container.resolve('createSpot'),
+      },
+    }
+  },
+})
 const app = new Koa()
 
 server.applyMiddleware({ app })

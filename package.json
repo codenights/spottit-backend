@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "apollo-server-koa": "2.4.8",
+    "awilix": "4.2.2",
     "dotenv": "7.0.0",
     "graphql": "14.2.1",
     "koa": "2.7.0",
