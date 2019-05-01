@@ -5,11 +5,14 @@ export const SpotSchema = gql`
     id: String!
     name: String!
     description: String
+    location: Location!
   }
 
   input CreateSpotInput {
     name: String!
-    description: String!
+    description: String
+    latitude: Float!
+    longitude: Float!
   }
 
   extend type Mutation {

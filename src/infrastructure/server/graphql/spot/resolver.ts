@@ -4,7 +4,9 @@ import { GraphlQlContext } from '../types'
 interface CreateSpotInput {
   input: {
     name: string
-    description?: string
+    description: string | null
+    latitude: number
+    longitude: number
   }
 }
 
@@ -21,6 +23,10 @@ const Mutation: MutationResolver = {
     context.usecases.createSpot({
       name: input.name,
       description: input.description,
+      location: {
+        latitude: input.latitude,
+        longitude: input.longitude,
+      },
     }),
 }
 
