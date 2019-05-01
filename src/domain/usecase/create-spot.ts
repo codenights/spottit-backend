@@ -23,6 +23,18 @@ export const createSpot = ({ spotRepository }: Options): CreateSpot => ({
   description,
   location,
 }) => {
+  if (location.latitude <= -90 || location.latitude >= 90) {
+    throw new Error(
+      `The location must be in ]-90, 90[ (received ${location.latitude}).`
+    )
+  }
+
+  if (location.longitude <= -180 || location.longitude >= 180) {
+    throw new Error(
+      `The location must be in ]-180, 180[ (received ${location.longitude}).`
+    )
+  }
+
   const id = uuid.v4()
   const spot = new Spot(id, name, description, location)
 
