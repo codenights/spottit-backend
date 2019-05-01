@@ -1,3 +1,5 @@
+/* eslint-disable import/no-commonjs */
+
 module.exports = {
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
   watchPlugins: [
