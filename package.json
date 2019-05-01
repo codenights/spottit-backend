@@ -1,0 +1,27 @@
+{
+  "name": "spottit-backend",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node dist/index.js",
+    "compile:watch": "tsc --watch",
+    "start:watch": "nodemon dist/index.js",
+    "dev": "yarn run compile:watch & yarn run start:watch",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "koa": "2.7.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/jest": "^24.0.12",
+    "@types/koa": "^2.0.48",
+    "jest": "^24.7.1",
+    "jest-watch-typeahead": "^0.3.0",
+    "typescript": "^3.4.5"
+  }
+}
