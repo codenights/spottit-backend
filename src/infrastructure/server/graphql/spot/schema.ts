@@ -15,6 +15,16 @@ export const SpotSchema = gql`
     longitude: Float!
   }
 
+  input SpotsFilterInput {
+    latitude: Float!
+    longitude: Float!
+    radius: Float!
+  }
+
+  extend type Query {
+    spots(filter: SpotsFilterInput!): [Spot!]!
+  }
+
   extend type Mutation {
     createSpot(input: CreateSpotInput!): Spot!
   }

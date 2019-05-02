@@ -1,21 +1,42 @@
 import { Spot } from '../../../../domain/model'
 import { GraphlQlContext } from '../types'
 
-interface CreateSpotInput {
-  input: {
-    name: string
-    description: string | null
-    latitude: number
-    longitude: number
-  }
-}
-
 interface MutationResolver {
   createSpot: (
     parent: null,
-    args: CreateSpotInput,
+    args: {
+      input: {
+        name: string
+        description: string | null
+        latitude: number
+        longitude: number
+      }
+    },
     context: GraphlQlContext
   ) => Promise<Spot>
+}
+
+interface QueryResolver {
+  spots: (
+    parent: null,
+    args: {
+      filter: {
+        latitude: number
+        longitude: number
+        radius: number
+      }
+    },
+    context: GraphlQlContext
+  ) => Promise<Spot[]>
+}
+
+const Query: QueryResolver = {
+  spots: (_parent, { filter }, context) =>
+    context.usecases.searchSpots({
+      latitude: filter.latitude,
+      longitude: filter.longitude,
+      radius: filter.radius,
+    }),
 }
 
 const Mutation: MutationResolver = {
@@ -31,7 +52,7 @@ const Mutation: MutationResolver = {
 }
 
 export const SpotResolvers = {
-  Query: {},
   Spot: {},
+  Query,
   Mutation,
 }
