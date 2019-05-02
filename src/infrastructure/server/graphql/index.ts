@@ -1,6 +1,5 @@
-import { gql } from 'apollo-server-koa'
-import { makeExecutableSchema } from 'graphql-tools'
-import merge from 'lodash.merge'
+import { gql, makeExecutableSchema } from 'apollo-server-koa'
+import merge from 'lodash.merge' // eslint-disable-line
 
 import { SpotSchema } from './spot/schema'
 import { LocationSchema } from './location/schema'

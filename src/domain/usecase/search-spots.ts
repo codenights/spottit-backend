@@ -6,11 +6,11 @@ interface Dependencies {
   spotRepository: SpotRepository
 }
 
-export interface SearchSpots {
-  (options: { latitude: number; longitude: number; radius: number }): Promise<
-    Spot[]
-  >
-}
+export type SearchSpots = (options: {
+  latitude: number
+  longitude: number
+  radius: number
+}) => Promise<Spot[]>
 
 export const searchSpots = ({ spotRepository }: Dependencies): SearchSpots => ({
   longitude,

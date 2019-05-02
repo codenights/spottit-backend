@@ -40,6 +40,7 @@ app.use(ctx => {
 })
 
 app.listen({ port }, () => {
+  // eslint-disable-next-line
   console.log(
     `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
   )

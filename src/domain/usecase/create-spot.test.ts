@@ -23,7 +23,7 @@ describe('validation', () => {
           longitude: 0,
         },
       })
-    ).toThrowError('The latitude must be in ]-90, 90[ (received -100).')
+    ).toThrow('The latitude must be in ]-90, 90[ (received -100).')
   })
 
   it('should throw when the latitude is -90', () => {
@@ -36,7 +36,7 @@ describe('validation', () => {
           longitude: 0,
         },
       })
-    ).toThrowError('The latitude must be in ]-90, 90[ (received -90).')
+    ).toThrow('The latitude must be in ]-90, 90[ (received -90).')
   })
 
   it('should throw when the latitude is 90', () => {
@@ -49,7 +49,7 @@ describe('validation', () => {
           longitude: 0,
         },
       })
-    ).toThrowError('The latitude must be in ]-90, 90[ (received 90).')
+    ).toThrow('The latitude must be in ]-90, 90[ (received 90).')
   })
 
   it('should throw when the latitude is > 90', () => {
@@ -62,7 +62,7 @@ describe('validation', () => {
           longitude: 0,
         },
       })
-    ).toThrowError('The latitude must be in ]-90, 90[ (received 100).')
+    ).toThrow('The latitude must be in ]-90, 90[ (received 100).')
   })
 
   it('should throw when the longitude is < -180', () => {
@@ -75,7 +75,7 @@ describe('validation', () => {
           longitude: -190,
         },
       })
-    ).toThrowError('The longitude must be in ]-180, 180[ (received -190).')
+    ).toThrow('The longitude must be in ]-180, 180[ (received -190).')
   })
 
   it('should throw when the longitude is -180', () => {
@@ -88,7 +88,7 @@ describe('validation', () => {
           longitude: -180,
         },
       })
-    ).toThrowError('The longitude must be in ]-180, 180[ (received -180).')
+    ).toThrow('The longitude must be in ]-180, 180[ (received -180).')
   })
 
   it('should throw when the longitude is 180', () => {
@@ -101,7 +101,7 @@ describe('validation', () => {
           longitude: 180,
         },
       })
-    ).toThrowError('The longitude must be in ]-180, 180[ (received 180).')
+    ).toThrow('The longitude must be in ]-180, 180[ (received 180).')
   })
 
   it('should throw when the longitude is > 180', () => {
@@ -114,7 +114,7 @@ describe('validation', () => {
           longitude: 190,
         },
       })
-    ).toThrowError('The longitude must be in ]-180, 180[ (received 190).')
+    ).toThrow('The longitude must be in ]-180, 180[ (received 190).')
   })
 })
 

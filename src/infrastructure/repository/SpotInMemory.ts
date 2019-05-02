@@ -41,7 +41,7 @@ const database: Database = {
   [espaceGlisseParis.id]: espaceGlisseParis,
 }
 
-const degreesToRadians = (value: number) => (value * Math.PI) / 180
+const degreesToRadians = (value: number): number => (value * Math.PI) / 180
 
 export const SpotInMemory = (): SpotRepository => {
   return {

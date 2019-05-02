@@ -14,9 +14,7 @@ interface Dependencies {
   spotRepository: SpotRepository
 }
 
-export interface CreateSpot {
-  (options: CreateSpotOptions): Promise<Spot>
-}
+export type CreateSpot = (options: CreateSpotOptions) => Promise<Spot>
 
 export const createSpot = ({ spotRepository }: Dependencies): CreateSpot => ({
   name,
