@@ -1,5 +1,3 @@
-import * as uuid from 'node-uuid'
-
 import { SpotRepository } from '../../application/repository'
 import { Spot } from '../../domain/model'
 
@@ -8,7 +6,7 @@ interface Database {
 }
 
 const parkRobinson = new Spot(
-  uuid.v4(),
+  'spot-1',
   'Parc Robinson',
   'Le skate park d Asnières',
   {
@@ -16,17 +14,12 @@ const parkRobinson = new Spot(
     longitude: 2.2930765,
   }
 )
-const skateparkCoubevoie = new Spot(
-  uuid.v4(),
-  'Skatepark de Courbevoie',
-  null,
-  {
-    latitude: 48.9017561,
-    longitude: 2.235201,
-  }
-)
+const skateparkCoubevoie = new Spot('spot-2', 'Skatepark de Courbevoie', null, {
+  latitude: 48.9017561,
+  longitude: 2.235201,
+})
 const espaceGlisseParis = new Spot(
-  uuid.v4(),
+  'spot-3',
   'Espace Glisse Paris 18',
   'Tres bon skatepark pour apprendre',
   {
@@ -34,11 +27,16 @@ const espaceGlisseParis = new Spot(
     longitude: 2.3630618,
   }
 )
+const skateparkBourse = new Spot('spot-4', 'Skate Park Léon Cladel', null, {
+  latitude: 48.8685633,
+  longitude: 2.3417836,
+})
 
 const database: Database = {
   [parkRobinson.id]: parkRobinson,
   [skateparkCoubevoie.id]: skateparkCoubevoie,
   [espaceGlisseParis.id]: espaceGlisseParis,
+  [skateparkBourse.id]: skateparkBourse,
 }
 
 const degreesToRadians = (value: number): number => (value * Math.PI) / 180

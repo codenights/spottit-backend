@@ -4,6 +4,7 @@ import merge from 'lodash.merge' // eslint-disable-line
 import { SpotSchema } from './spot/schema'
 import { LocationSchema } from './location/schema'
 import { SpotResolvers } from './spot/resolver'
+import { LocationResolvers } from './location/resolver'
 
 const Query = gql`
   type Query {
@@ -16,5 +17,6 @@ const Query = gql`
 
 export const schema = makeExecutableSchema({
   typeDefs: [Query, SpotSchema, LocationSchema],
-  resolvers: merge(SpotResolvers),
+  // @ts-ignore
+  resolvers: merge(SpotResolvers, LocationResolvers),
 })
