@@ -10,7 +10,7 @@ type CreateSpotOptions = {
   location: Location
 }
 
-interface Options {
+interface Dependencies {
   spotRepository: SpotRepository
 }
 
@@ -18,20 +18,20 @@ export interface CreateSpot {
   (options: CreateSpotOptions): Promise<Spot>
 }
 
-export const createSpot = ({ spotRepository }: Options): CreateSpot => ({
+export const createSpot = ({ spotRepository }: Dependencies): CreateSpot => ({
   name,
   description,
   location,
 }) => {
   if (location.latitude <= -90 || location.latitude >= 90) {
     throw new Error(
-      `The location must be in ]-90, 90[ (received ${location.latitude}).`
+      `The latitude must be in ]-90, 90[ (received ${location.latitude}).`
     )
   }
 
   if (location.longitude <= -180 || location.longitude >= 180) {
     throw new Error(
-      `The location must be in ]-180, 180[ (received ${location.longitude}).`
+      `The longitude must be in ]-180, 180[ (received ${location.longitude}).`
     )
   }
 
