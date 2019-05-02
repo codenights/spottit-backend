@@ -23,6 +23,7 @@ export const SpotSchema = gql`
 
   extend type Query {
     spots(filter: SpotsFilterInput!): [Spot!]!
+    spot(id: String!): Spot!
   }
 
   extend type Mutation {

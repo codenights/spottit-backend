@@ -5,7 +5,7 @@ import { createContainer, asFunction } from 'awilix'
 
 import { schema } from './graphql'
 import { SpotInMemory } from '../repository/SpotInMemory'
-import { createSpot, searchSpots } from '../../domain/usecase'
+import { createSpot, searchSpots, getSpot } from '../../domain/usecase'
 import { GraphlQlContext } from './graphql/types'
 
 dotenv.config()
@@ -17,6 +17,7 @@ container.register({
   spotRepository: asFunction(SpotInMemory).singleton(),
   createSpot: asFunction(createSpot),
   searchSpots: asFunction(searchSpots),
+  getSpot: asFunction(getSpot),
 })
 
 const server = new ApolloServer({
@@ -26,6 +27,7 @@ const server = new ApolloServer({
       usecases: {
         createSpot: container.resolve('createSpot'),
         searchSpots: container.resolve('searchSpots'),
+        getSpot: container.resolve('getSpot'),
       },
     }
   },

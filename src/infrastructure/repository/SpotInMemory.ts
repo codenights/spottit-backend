@@ -69,5 +69,11 @@ export const SpotInMemory = (): SpotRepository => {
 
       return Promise.resolve(matchingSpots)
     },
+
+    findById: id => {
+      const spot = database[id] || null
+
+      return Promise.resolve(spot)
+    },
   }
 }

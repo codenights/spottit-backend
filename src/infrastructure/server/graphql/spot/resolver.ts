@@ -28,6 +28,11 @@ interface QueryResolver {
     },
     context: GraphlQlContext
   ) => Promise<Spot[]>
+  spot: (
+    parent: null,
+    args: { id: string },
+    context: GraphlQlContext
+  ) => Promise<Spot>
 }
 
 const Query: QueryResolver = {
@@ -37,6 +42,7 @@ const Query: QueryResolver = {
       longitude: filter.longitude,
       radius: filter.radius,
     }),
+  spot: (_parent, { id }, context) => context.usecases.getSpot({ id }),
 }
 
 const Mutation: MutationResolver = {

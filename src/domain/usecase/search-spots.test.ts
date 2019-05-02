@@ -14,6 +14,7 @@ beforeEach(() => {
         longitude: 0,
       }),
     ]),
+    findById: jest.fn(),
   }
   usecase = searchSpots({ spotRepository })
 })

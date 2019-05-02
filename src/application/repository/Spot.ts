@@ -7,4 +7,5 @@ export interface SpotRepository {
     longitude: number,
     radius: number
   ) => Promise<Spot[]>
+  findById: (id: string) => Promise<Spot | null>
 }

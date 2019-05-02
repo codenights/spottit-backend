@@ -8,6 +8,7 @@ beforeEach(() => {
   spotRepository = {
     persist: jest.fn(spot => Promise.resolve(spot)),
     findByLocation: jest.fn().mockResolvedValue([]),
+    findById: jest.fn(),
   }
   usecase = createSpot({ spotRepository })
 })
