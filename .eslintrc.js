@@ -7,4 +7,10 @@ module.exports = {
       },
     },
   },
+  rules: {
+    '@typescript-eslint/camelcase': 'off',
+    'new-cap': 'off',
+    'import/no-unresolved': 'off', // False negatives
+    'import/named': 'off', // False negatives
+  },
 }

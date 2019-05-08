@@ -1,21 +1,17 @@
 import { Location } from '../../../../domain/model'
 import { GraphlQlContext } from '../types'
 
-interface LocationResolver {
+const LocationResolver = {
   address: (
-    parent: Location,
+    location: Location,
     _args: null,
     context: GraphlQlContext
-  ) => Promise<String | null>
-}
-
-const Location: LocationResolver = {
-  address: (location, _args, context) =>
+  ): Promise<string | null> =>
     context.services.geolocation.getAddressForLocation(location),
 }
 
 export const LocationResolvers = {
   Query: {},
   Mutation: {},
-  Location,
+  Location: LocationResolver,
 }

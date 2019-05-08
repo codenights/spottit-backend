@@ -1,46 +1,71 @@
 import Koa from 'koa'
 import dotenv from 'dotenv'
-import { ApolloServer } from 'apollo-server-koa'
-import { createContainer, asFunction, asValue } from 'awilix'
+import { createContainer, asFunction, asValue, asClass } from 'awilix'
 
-import { schema } from './graphql'
+import { configureMiddlewares } from './middlewares'
+import { configureRoutes } from './routes'
 import { SpotInMemory } from '../repository/SpotInMemory'
-import { createSpot, searchSpots, getSpot } from '../../domain/usecase'
-import { createGeolocationService } from '../services/geolocation'
-import { GraphlQlContext } from './graphql/types'
+import {
+  createSpot,
+  searchSpots,
+  getSpot,
+  linkSocialAccount,
+} from '../../domain/usecase'
+import { GeolocationService } from '../services/Geolocation'
+import { UserInMemory } from '../repository/UserInMemory'
+import { GoogleAuthService } from '../services/GoogleAuthService'
+import { configureGraphql } from './graphql'
 
 dotenv.config()
+
+const googleClientId = process.env.OAUTH2_GOOGLE_API_KEY
+const googleClientSecret = process.env.OAUTH2_GOOGLE_API_SECRET
+const googleRedirectUri = process.env.OAUTH2_GOOGLE_REDIRECT_URI
+
+if (!googleClientId) {
+  throw new Error('Environment variable "OAUTH2_GOOGLE_API_KEY" is required')
+}
+
+if (!googleClientSecret) {
+  throw new Error('Environment variable "OAUTH2_GOOGLE_API_SECRET" is required')
+}
+
+if (!googleRedirectUri) {
+  throw new Error(
+    'Environment variable "OAUTH2_GOOGLE_REDIRECT_URI" is required'
+  )
+}
 
 const port = process.env.PORT
 const container = createContainer()
 
 container.register({
+  // Configuration
+  googleClientId: asValue(googleClientId),
+  googleClientSecret: asValue(googleClientSecret),
+  googleRedirectUri: asValue(googleRedirectUri),
+  openCageDataApiKey: asValue(process.env.OPENCAGEDATA_API_KEY),
+
+  // Services
+  googleAuthService: asClass(GoogleAuthService),
+  geolocationService: asClass(GeolocationService),
+
+  // Repositories
   spotRepository: asFunction(SpotInMemory).singleton(),
+  userRepository: asFunction(UserInMemory).singleton(),
+
+  // Use cases
   createSpot: asFunction(createSpot),
   searchSpots: asFunction(searchSpots),
   getSpot: asFunction(getSpot),
-  geolocationService: asFunction(createGeolocationService),
-  openCageDataApiKey: asValue(process.env.OPENCAGEDATA_API_KEY),
+  linkSocialAccount: asFunction(linkSocialAccount),
 })
 
-const server = new ApolloServer({
-  schema,
-  context: (): GraphlQlContext => {
-    return {
-      usecases: {
-        createSpot: container.resolve('createSpot'),
-        searchSpots: container.resolve('searchSpots'),
-        getSpot: container.resolve('getSpot'),
-      },
-      services: {
-        geolocation: container.resolve('geolocationService'),
-      },
-    }
-  },
-})
 const app = new Koa()
 
-server.applyMiddleware({ app })
+configureMiddlewares(app, container)
+configureGraphql(app)
+configureRoutes(app)
 
 app.use(ctx => {
   // eslint-disable-next-line no-param-reassign
@@ -49,7 +74,5 @@ app.use(ctx => {
 
 app.listen({ port }, () => {
   // eslint-disable-next-line
-  console.log(
-    `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
-  )
+  console.log(`🚀 Server ready at http://localhost:${port}`)
 })

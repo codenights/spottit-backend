@@ -7,25 +7,27 @@ interface Dependencies {
   openCageDataApiKey: string
 }
 
-export interface GeolocationService {
-  getAddressForLocation: (location: Location) => Promise<string | null>
+interface OpenCageDataResponse {
+  results: Array<{
+    formatted: string
+  }>
 }
 
-export const createGeolocationService = ({
-  openCageDataApiKey,
-}: Dependencies): GeolocationService => ({
-  getAddressForLocation: location => {
+export class GeolocationService {
+  private clientId: string
+
+  public constructor({ openCageDataApiKey }: Dependencies) {
+    this.clientId = openCageDataApiKey
+  }
+
+  public getAddressForLocation(location: Location): Promise<string | null> {
     const params = {
       q: `${location.latitude}+${location.longitude}`,
-      key: openCageDataApiKey,
+      key: this.clientId,
     }
 
     return axios
-      .get<{
-        results: Array<{
-          formatted: string
-        }>
-      }>(
+      .get<OpenCageDataResponse>(
         `https://api.opencagedata.com/geocode/v1/json?${qs.stringify(
           params,
           undefined,
@@ -43,5 +45,5 @@ export const createGeolocationService = ({
 
         return data.results[0].formatted
       })
-  },
-})
+  }
+}

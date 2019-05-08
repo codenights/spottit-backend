@@ -16,12 +16,15 @@
     "lint": "eslint --ext .ts ."
   },
   "dependencies": {
+    "@hapi/joi": "^15.0.2",
     "apollo-server-koa": "2.4.8",
     "awilix": "4.2.2",
+    "awilix-koa": "^3.1.0",
     "axios": "^0.18.0",
     "dotenv": "7.0.0",
     "graphql": "14.2.1",
     "koa": "2.7.0",
+    "koa-route": "^3.2.0",
     "lodash.merge": "4.6.1",
     "node-uuid": "1.4.8"
   },
@@ -30,8 +33,10 @@
     "@types/dotenv": "6.1.1",
     "@types/glob": "^7.1.1",
     "@types/graphql": "14.2.0",
+    "@types/hapi__joi": "^15.0.1",
     "@types/jest": "24.0.12",
     "@types/koa": "2.0.48",
+    "@types/koa-route": "^3.2.4",
     "@types/lodash.merge": "4.6.6",
     "@types/node-uuid": "0.0.28",
     "@typescript-eslint/eslint-plugin": "1.7.0",
