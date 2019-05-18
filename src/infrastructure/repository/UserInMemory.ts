@@ -1,4 +1,4 @@
-import { UserRepository } from '../../application/repository'
+import { UserRepository } from '../../domain/repository'
 import { User } from '../../domain/model'
 
 interface Database {

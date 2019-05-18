@@ -1,4 +1,4 @@
-import { SpotRepository } from '../../application/repository'
+import { SpotRepository } from '../repository'
 import { CreateSpot, createSpot } from './create-spot'
 
 let usecase: CreateSpot

@@ -1,4 +1,4 @@
-import { SpotRepository } from '../../application/repository'
+import { SpotRepository } from '../../domain/repository'
 import { Spot } from '../../domain/model'
 
 interface Database {

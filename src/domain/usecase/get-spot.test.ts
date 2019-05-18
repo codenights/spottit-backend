@@ -1,4 +1,4 @@
-import { SpotRepository } from '../../application/repository'
+import { SpotRepository } from '../repository'
 import { GetSpot, getSpot } from './get-spot'
 import { Spot } from '../model'
 

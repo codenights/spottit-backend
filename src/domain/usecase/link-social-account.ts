@@ -1,6 +1,6 @@
 import * as uuid from 'node-uuid'
 
-import { UserRepository } from '../../application/repository'
+import { UserRepository } from '../repository'
 import { User } from '../model'
 
 interface Dependencies {

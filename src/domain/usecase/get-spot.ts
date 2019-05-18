@@ -1,4 +1,4 @@
-import { SpotRepository } from '../../application/repository'
+import { SpotRepository } from '../repository'
 import { Spot } from '../model'
 
 interface Dependencies {

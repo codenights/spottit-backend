@@ -2,7 +2,7 @@ import Koa from 'koa'
 import { asValue } from 'awilix'
 import { makeInvoker } from 'awilix-koa'
 
-import { UserRepository } from '../../../application/repository'
+import { UserRepository } from '../../../domain/repository'
 import { User } from '../../../domain/model'
 import { GoogleAuthService } from '../../services/GoogleAuthService'
 import { getContainerFromKoaContext } from '../util'

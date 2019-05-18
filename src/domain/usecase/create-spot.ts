@@ -1,6 +1,6 @@
 import * as uuid from 'node-uuid'
 
-import { SpotRepository } from '../../application/repository'
+import { SpotRepository } from '../repository'
 import { validateLatitude, validateLongitude } from '../validation/location'
 import { Spot, Location } from '../model'
 

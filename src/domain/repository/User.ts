@@ -1,4 +1,4 @@
-import { User } from '../../domain/model'
+import { User } from '../model'
 
 export interface UserRepository {
   persist: (spot: User) => Promise<User>

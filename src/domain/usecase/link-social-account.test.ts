@@ -1,4 +1,4 @@
-import { UserRepository } from '../..//application/repository'
+import { UserRepository } from '../repository'
 import { UserInMemory } from '../../infrastructure/repository/UserInMemory'
 import { User } from '../model'
 
