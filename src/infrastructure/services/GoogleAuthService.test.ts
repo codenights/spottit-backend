@@ -25,7 +25,7 @@ describe('getAuthorizeUrl', () => {
 
     // Then
     expect(authorizeUrl).toEqual(
-      'https://accounts.google.com/o/oauth2/v2/auth?client_id=client-id&redirect_uri=redirect-uri&state=http%3A%2F%2Fexample.com&include_granted_scopes=true&access_type=offline&response_type=code&scope=profile%20email'
+      'https://accounts.google.com/o/oauth2/v2/auth?client_id=client-id&redirect_uri=redirect-uri&state=http%3A%2F%2Fexample.com&include_granted_scopes=true&access_type=offline&response_type=code&scope=profile%20email&prompt=consent'
     )
   })
 })
