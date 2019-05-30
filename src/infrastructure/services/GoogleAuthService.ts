@@ -12,6 +12,10 @@ interface GoogleTokenResponse {
   refresh_token: string
 }
 
+interface GoogleRefreshTokenResponse {
+  access_token: string
+}
+
 interface GoogleUserResponse {
   sub: string
   email: string
@@ -81,5 +85,16 @@ export class GoogleAuthService {
         },
       })
       .then(response => response.data)
+  }
+
+  public refreshAccessToken(refreshToken: string): Promise<string> {
+    return axios
+      .post<GoogleRefreshTokenResponse>(`${API_V4_ENDPOINT}/token`, {
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        refresh_token: refreshToken,
+        grant_type: 'refresh_token',
+      })
+      .then(response => response.data.access_token)
   }
 }
