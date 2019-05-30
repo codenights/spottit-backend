@@ -6,6 +6,7 @@ import { UserRepository } from '../../../domain/repository'
 import { User } from '../../../domain/model'
 import { GoogleAuthService } from '../../services/GoogleAuthService'
 import { getContainerFromKoaContext } from '../util'
+import { setAuthenticationError } from '../errors'
 
 interface Dependencies {
   userRepository: UserRepository
@@ -36,17 +37,22 @@ class AuthorizationMiddleware {
 
     let currentUser: User | null = null
 
-    if (accessToken) {
-      const googleUser = await this.googleAuthService.getCurrentUser(
-        accessToken
-      )
-      currentUser = await this.userRepository.findByEmail(googleUser.email)
-    }
+    try {
+      if (accessToken) {
+        const googleUser = await this.googleAuthService.getCurrentUser(
+          accessToken
+        )
+        currentUser = await this.userRepository.findByEmail(googleUser.email)
+      }
 
-    container.register({
-      currentUser: asValue(currentUser),
-    })
-    return next()
+      container.register({
+        currentUser: asValue(currentUser),
+      })
+
+      return next()
+    } catch (err) {
+      setAuthenticationError(ctx)
+    }
   }
 }
 
