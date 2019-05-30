@@ -86,5 +86,5 @@ const handler = makeInvoker(GoogleOauth2Api)
 
 export const configureGoogleRoutes = (app: Koa): Koa =>
   app
-    .use(router.get('/authorize/google', handler('redirectToLogin'))) // TODO: remove /google
+    .use(router.get('/authorize/google', handler('redirectToLogin')))
     .use(router.get('/oauth2/google', handler('handleOauth2Callback')))

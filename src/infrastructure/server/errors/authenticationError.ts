@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Koa from 'koa'
 
 export function setAuthenticationError(ctx: Koa.Context): void {

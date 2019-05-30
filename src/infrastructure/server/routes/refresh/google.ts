@@ -35,6 +35,7 @@ class GoogleRefreshApi {
       body.refreshToken
     )
 
+    // eslint-disable-next-line no-param-reassign
     ctx.body = {
       accessToken,
     }

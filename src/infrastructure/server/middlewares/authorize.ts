@@ -51,7 +51,7 @@ class AuthorizationMiddleware {
 
       return next()
     } catch (err) {
-      setAuthenticationError(ctx)
+      return setAuthenticationError(ctx)
     }
   }
 }
