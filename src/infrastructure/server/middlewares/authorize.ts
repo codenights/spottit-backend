@@ -4,13 +4,13 @@ import { makeInvoker } from 'awilix-koa'
 
 import { UserRepository } from '../../../domain/repository'
 import { User } from '../../../domain/model'
-import { GoogleAuthService } from '../../services/GoogleAuthService'
+import { AuthService } from '../../../infrastructure/services/AuthService'
 import { getContainerFromKoaContext } from '../util'
 import { setAuthenticationError } from '../errors'
 
 interface Dependencies {
   userRepository: UserRepository
-  googleAuthService: GoogleAuthService
+  authService: AuthService
 }
 
 const getAccessTokenFromHeaders = (
@@ -24,11 +24,11 @@ const getAccessTokenFromHeaders = (
 
 class AuthorizationMiddleware {
   private userRepository: UserRepository
-  private googleAuthService: GoogleAuthService
+  private authService: AuthService
 
-  public constructor({ userRepository, googleAuthService }: Dependencies) {
+  public constructor({ userRepository, authService }: Dependencies) {
     this.userRepository = userRepository
-    this.googleAuthService = googleAuthService
+    this.authService = authService
   }
 
   public authorize: Koa.Middleware = async (ctx, next) => {
@@ -39,9 +39,7 @@ class AuthorizationMiddleware {
 
     try {
       if (accessToken) {
-        const googleUser = await this.googleAuthService.getCurrentUser(
-          accessToken
-        )
+        const googleUser = await this.authService.getCurrentUser(accessToken)
         currentUser = await this.userRepository.findByEmail(googleUser.email)
       }
 

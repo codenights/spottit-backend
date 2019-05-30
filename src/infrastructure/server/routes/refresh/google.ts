@@ -1,23 +1,23 @@
 import Koa from 'koa'
 import Joi from '@hapi/joi'
-
-import { GoogleAuthService } from '../../../../infrastructure/services/GoogleAuthService'
-import { validateSchemaOrThrow } from '../../util'
 import { makeInvoker } from 'awilix-koa'
+
+import { AuthService } from '../../../../infrastructure/services/AuthService'
+import { validateSchemaOrThrow } from '../../util'
 
 interface RefreshBody {
   refreshToken: string
 }
 
 interface Dependencies {
-  googleAuthService: GoogleAuthService
+  authService: AuthService
 }
 
 class GoogleRefreshApi {
-  private googleAuthService: GoogleAuthService
+  private authService: AuthService
 
-  public constructor({ googleAuthService }: Dependencies) {
-    this.googleAuthService = googleAuthService
+  public constructor({ authService }: Dependencies) {
+    this.authService = authService
   }
 
   public refreshAccessToken: Koa.Middleware = async ctx => {
@@ -31,7 +31,7 @@ class GoogleRefreshApi {
       body
     )
 
-    const accessToken = await this.googleAuthService.refreshAccessToken(
+    const accessToken = await this.authService.refreshAccessToken(
       body.refreshToken
     )
 

@@ -4,7 +4,7 @@ import router from 'koa-route'
 import Joi from '@hapi/joi'
 
 import { LinkSocialAccount } from '../../../../domain/usecase'
-import { GoogleAuthService } from '../../../services/GoogleAuthService'
+import { AuthService } from '../../../../infrastructure/services/AuthService'
 import { validateSchemaOrThrow } from '../../util'
 import { makeInvoker } from 'awilix-koa'
 
@@ -18,16 +18,16 @@ interface Oauth2Query {
 }
 
 interface Dependencies {
-  googleAuthService: GoogleAuthService
+  authService: AuthService
   linkSocialAccount: LinkSocialAccount
 }
 
 class GoogleOauth2Api {
-  private googleAuthService: GoogleAuthService
+  private authService: AuthService
   private linkSocialAccount: LinkSocialAccount
 
-  public constructor({ googleAuthService, linkSocialAccount }: Dependencies) {
-    this.googleAuthService = googleAuthService
+  public constructor({ authService, linkSocialAccount }: Dependencies) {
+    this.authService = authService
     this.linkSocialAccount = linkSocialAccount
   }
 
@@ -42,7 +42,7 @@ class GoogleOauth2Api {
       query
     )
 
-    ctx.redirect(this.googleAuthService.getAuthorizeUrl(query.redirect))
+    ctx.redirect(this.authService.getAuthorizeUrl(query.redirect))
   }
 
   public handleOauth2Callback: Koa.Middleware = async ctx => {
@@ -61,12 +61,11 @@ class GoogleOauth2Api {
     const code = query.code
     const redirectUri = query.state
 
-    const {
-      accessToken,
-      refreshToken,
-    } = await this.googleAuthService.getCredentials(code)
+    const { accessToken, refreshToken } = await this.authService.getCredentials(
+      code
+    )
 
-    const user = await this.googleAuthService.getCurrentUser(accessToken)
+    const user = await this.authService.getCurrentUser(accessToken)
 
     await this.linkSocialAccount({
       email: user.email,
