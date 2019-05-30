@@ -53,6 +53,7 @@ export class GoogleAuthService {
       access_type: 'offline',
       response_type: 'code',
       scope: 'profile email',
+      prompt: 'consent',
     })}`
   }
 
