@@ -13,10 +13,11 @@
     "dev": "yarn run compile:watch & yarn run serve:watch",
     "build": "tsc",
     "test": "jest",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts . --fix"
   },
   "dependencies": {
     "@hapi/joi": "^15.0.2",
+    "@koa/cors": "^3.0.0",
     "apollo-server-koa": "2.4.8",
     "awilix": "4.2.2",
     "awilix-koa": "^3.1.0",
@@ -24,6 +25,7 @@
     "dotenv": "7.0.0",
     "graphql": "14.2.1",
     "koa": "2.7.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-route": "^3.2.0",
     "lodash.merge": "4.6.1",
     "node-uuid": "1.4.8"

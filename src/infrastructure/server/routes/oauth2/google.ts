@@ -84,10 +84,7 @@ class GoogleOauth2Api {
 
 const handler = makeInvoker(GoogleOauth2Api)
 
-export const configureGoogleRoutes = (app: Koa): Koa => {
+export const configureGoogleRoutes = (app: Koa): Koa =>
   app
     .use(router.get('/authorize/google', handler('redirectToLogin')))
     .use(router.get('/oauth2/google', handler('handleOauth2Callback')))
-
-  return app
-}
