@@ -18,6 +18,7 @@ import { configureGraphql } from './graphql'
 
 dotenv.config()
 
+const corsAllowedOrigin = process.env.CORS_ALLOWED_ORIGIN
 const googleClientId = process.env.OAUTH2_GOOGLE_API_KEY
 const googleClientSecret = process.env.OAUTH2_GOOGLE_API_SECRET
 const googleRedirectUri = process.env.OAUTH2_GOOGLE_REDIRECT_URI
@@ -36,6 +37,10 @@ if (!googleRedirectUri) {
   )
 }
 
+if (!corsAllowedOrigin) {
+  throw new Error('Environment variable "CORS_ALLOWED_ORIGIN" is required')
+}
+
 const port = process.env.PORT
 const container = createContainer()
 
@@ -45,6 +50,7 @@ container.register({
   googleClientSecret: asValue(googleClientSecret),
   googleRedirectUri: asValue(googleRedirectUri),
   openCageDataApiKey: asValue(process.env.OPENCAGEDATA_API_KEY),
+  corsAllowedOrigin: asValue(corsAllowedOrigin),
 
   // Services
   googleAuthService: asClass(GoogleAuthService),
