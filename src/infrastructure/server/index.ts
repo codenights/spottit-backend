@@ -1,6 +1,6 @@
 import Koa from 'koa'
 import dotenv from 'dotenv'
-import { createContainer, asFunction, asValue, asClass } from 'awilix'
+import { createContainer, asFunction, asValue, asClass, Resolver } from 'awilix'
 
 import { configureMiddlewares } from './middlewares'
 import { configureRoutes } from './routes'
@@ -20,49 +20,57 @@ import { AuthService } from '../services/AuthService'
 
 dotenv.config()
 
-const corsAllowedOrigin = process.env.CORS_ALLOWED_ORIGIN
-const googleClientId = process.env.OAUTH2_GOOGLE_API_KEY
-const googleClientSecret = process.env.OAUTH2_GOOGLE_API_SECRET
-const googleRedirectUri = process.env.OAUTH2_GOOGLE_REDIRECT_URI
 const identityProvider = process.env.IDENTITY_PROVIDER
+const corsAllowedOrigin = process.env.CORS_ALLOWED_ORIGIN
 
-if (!googleClientId) {
-  throw new Error('Environment variable "OAUTH2_GOOGLE_API_KEY" is required')
-}
+let authService: Resolver<AuthService>
 
-if (!googleClientSecret) {
-  throw new Error('Environment variable "OAUTH2_GOOGLE_API_SECRET" is required')
-}
+if (identityProvider === 'local') {
+  authService = asClass(LocalAuthService)
+} else if (identityProvider === 'google') {
+  const googleClientId = process.env.OAUTH2_GOOGLE_API_KEY
+  const googleClientSecret = process.env.OAUTH2_GOOGLE_API_SECRET
+  const googleRedirectUri = process.env.OAUTH2_GOOGLE_REDIRECT_URI
 
-if (!googleRedirectUri) {
-  throw new Error(
-    'Environment variable "OAUTH2_GOOGLE_REDIRECT_URI" is required'
-  )
+  if (!googleClientId) {
+    throw new Error('Environment variable "OAUTH2_GOOGLE_API_KEY" is required')
+  }
+
+  if (!googleClientSecret) {
+    throw new Error(
+      'Environment variable "OAUTH2_GOOGLE_API_SECRET" is required'
+    )
+  }
+
+  if (!googleRedirectUri) {
+    throw new Error(
+      'Environment variable "OAUTH2_GOOGLE_REDIRECT_URI" is required'
+    )
+  }
+
+  authService = asClass(GoogleAuthService).inject(() => ({
+    googleClientId: asValue(googleClientId),
+    googleClientSecret: asValue(googleClientSecret),
+    googleRedirectUri: asValue(googleRedirectUri),
+  }))
+} else {
+  throw new Error('Environment variable "IDENTITY_PROVIDER" is required')
 }
 
 if (!corsAllowedOrigin) {
   throw new Error('Environment variable "CORS_ALLOWED_ORIGIN" is required')
 }
 
-if (!identityProvider) {
-  throw new Error('Environment variable "IDENTITY_PROVIDER" is required')
-}
-
 const port = process.env.PORT
 const container = createContainer()
-const authService =
-  identityProvider === 'local' ? LocalAuthService : GoogleAuthService
 
 container.register({
   // Configuration
-  googleClientId: asValue(googleClientId),
-  googleClientSecret: asValue(googleClientSecret),
-  googleRedirectUri: asValue(googleRedirectUri),
   openCageDataApiKey: asValue(process.env.OPENCAGEDATA_API_KEY),
   corsAllowedOrigin: asValue(corsAllowedOrigin),
 
   // Services
-  authService: asClass<AuthService>(authService),
+  authService,
   geolocationService: asClass(GeolocationService),
 
   // Repositories
