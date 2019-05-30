@@ -15,6 +15,8 @@ import { GeolocationService } from '../services/Geolocation'
 import { UserInMemory } from '../repository/UserInMemory'
 import { GoogleAuthService } from '../services/GoogleAuthService'
 import { configureGraphql } from './graphql'
+import { LocalAuthService } from '../services/LocalAuthService'
+import { AuthService } from '../services/AuthService'
 
 dotenv.config()
 
@@ -22,6 +24,7 @@ const corsAllowedOrigin = process.env.CORS_ALLOWED_ORIGIN
 const googleClientId = process.env.OAUTH2_GOOGLE_API_KEY
 const googleClientSecret = process.env.OAUTH2_GOOGLE_API_SECRET
 const googleRedirectUri = process.env.OAUTH2_GOOGLE_REDIRECT_URI
+const identityProvider = process.env.IDENTITY_PROVIDER
 
 if (!googleClientId) {
   throw new Error('Environment variable "OAUTH2_GOOGLE_API_KEY" is required')
@@ -41,8 +44,14 @@ if (!corsAllowedOrigin) {
   throw new Error('Environment variable "CORS_ALLOWED_ORIGIN" is required')
 }
 
+if (!identityProvider) {
+  throw new Error('Environment variable "IDENTITY_PROVIDER" is required')
+}
+
 const port = process.env.PORT
 const container = createContainer()
+const authService =
+  identityProvider === 'local' ? LocalAuthService : GoogleAuthService
 
 container.register({
   // Configuration
@@ -53,7 +62,7 @@ container.register({
   corsAllowedOrigin: asValue(corsAllowedOrigin),
 
   // Services
-  googleAuthService: asClass(GoogleAuthService),
+  authService: asClass<AuthService>(authService),
   geolocationService: asClass(GeolocationService),
 
   // Repositories
