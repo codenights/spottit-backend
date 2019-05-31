@@ -54,6 +54,7 @@ const Mutation: MutationResolver = {
         latitude: input.latitude,
         longitude: input.longitude,
       },
+      authorId: context.authenticationService.getCurrentUser().id,
     }),
 }
 

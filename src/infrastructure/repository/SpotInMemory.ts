@@ -48,12 +48,19 @@ omnes [regnum](http://imaginelibratum.com/obvius.html) certior vulnera.
   {
     latitude: 48.909018,
     longitude: 2.2930765,
-  }
+  },
+  'user-id-1'
 )
-const skateparkCoubevoie = new Spot('spot-2', 'Skatepark de Courbevoie', null, {
-  latitude: 48.9017561,
-  longitude: 2.235201,
-})
+const skateparkCoubevoie = new Spot(
+  'spot-2',
+  'Skatepark de Courbevoie',
+  null,
+  {
+    latitude: 48.9017561,
+    longitude: 2.235201,
+  },
+  'user-id-1'
+)
 const espaceGlisseParis = new Spot(
   'spot-3',
   'Espace Glisse Paris 18',
@@ -106,12 +113,19 @@ dextra et non et Laestrygonis locorum posse se relinquet cedere!
   {
     latitude: 48.899555,
     longitude: 2.3630618,
-  }
+  },
+  'user-id-2'
 )
-const skateparkBourse = new Spot('spot-4', 'Skate Park Léon Cladel', null, {
-  latitude: 48.8685633,
-  longitude: 2.3417836,
-})
+const skateparkBourse = new Spot(
+  'spot-4',
+  'Skate Park Léon Cladel',
+  null,
+  {
+    latitude: 48.8685633,
+    longitude: 2.3417836,
+  },
+  'user-id-1'
+)
 
 const database: Database = {
   [parkRobinson.id]: parkRobinson,
@@ -129,6 +143,7 @@ export const SpotInMemory = (): SpotRepository => {
 
       return Promise.resolve(spot)
     },
+
     findByLocation: (latitude, longitude, radius) => {
       const matchingSpots = Object.values(database).filter(({ location }) => {
         const distance =

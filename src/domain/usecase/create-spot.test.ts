@@ -29,6 +29,7 @@ describe('validation', () => {
           latitude: -100,
           longitude: 0,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The latitude must be in ]-90, 90[ (received -100).')
   })
@@ -42,6 +43,7 @@ describe('validation', () => {
           latitude: -90,
           longitude: 0,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The latitude must be in ]-90, 90[ (received -90).')
   })
@@ -55,6 +57,7 @@ describe('validation', () => {
           latitude: 90,
           longitude: 0,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The latitude must be in ]-90, 90[ (received 90).')
   })
@@ -68,6 +71,7 @@ describe('validation', () => {
           latitude: 100,
           longitude: 0,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The latitude must be in ]-90, 90[ (received 100).')
   })
@@ -81,6 +85,7 @@ describe('validation', () => {
           latitude: 0,
           longitude: -190,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The longitude must be in ]-180, 180[ (received -190).')
   })
@@ -94,6 +99,7 @@ describe('validation', () => {
           latitude: 0,
           longitude: -180,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The longitude must be in ]-180, 180[ (received -180).')
   })
@@ -107,6 +113,7 @@ describe('validation', () => {
           latitude: 0,
           longitude: 180,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The longitude must be in ]-180, 180[ (received 180).')
   })
@@ -120,6 +127,7 @@ describe('validation', () => {
           latitude: 0,
           longitude: 190,
         },
+        authorId: 'author-id',
       })
     ).toThrow('The longitude must be in ]-180, 180[ (received 190).')
   })
@@ -140,6 +148,7 @@ describe('authentication', () => {
           longitude: 1.0,
         },
         name: 'Spot name',
+        authorId: 'author-id',
       })
 
     // Then
@@ -155,6 +164,7 @@ it('should save a new spot', async () => {
       longitude: 98.5,
     },
     name: 'spot name',
+    authorId: 'author-id',
   })
 
   expect(spotRepository.persist).toHaveBeenCalledTimes(1)
@@ -179,6 +189,7 @@ it('should resolve the new spot', async () => {
       longitude: 98.5,
     },
     name: 'spot name',
+    authorId: 'author-id',
   })
 
   expect(spot.description).toEqual('some description')
@@ -187,4 +198,5 @@ it('should resolve the new spot', async () => {
     longitude: 98.5,
   })
   expect(spot.name).toEqual('spot name')
+  expect(spot.authorId).toEqual('author-id')
 })

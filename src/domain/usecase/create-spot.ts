@@ -9,6 +9,7 @@ type CreateSpotOptions = {
   name: string
   description: string | null
   location: Location
+  authorId: string
 }
 
 interface Dependencies {
@@ -21,14 +22,14 @@ export type CreateSpot = (options: CreateSpotOptions) => Promise<Spot>
 export const createSpot = ({
   spotRepository,
   authenticationService,
-}: Dependencies): CreateSpot => ({ name, description, location }) => {
+}: Dependencies): CreateSpot => ({ name, description, location, authorId }) => {
   authenticationService.throwIfNotLoggedIn()
 
   validateLatitude(location.latitude)
   validateLongitude(location.longitude)
 
   const id = uuid.v4()
-  const spot = new Spot(id, name, description, location)
+  const spot = new Spot(id, name, description, location, authorId)
 
   return spotRepository.persist(spot)
 }
