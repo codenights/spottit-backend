@@ -8,6 +8,7 @@ import {
   getSpot,
   createUserAccount,
 } from '../../domain/usecase'
+import { FakerUsernameService } from '../../domain/services/FakerUsernameService'
 import { SpotInMemory } from '../repository/SpotInMemory'
 import { UserInMemory } from '../repository/UserInMemory'
 import { GeolocationService } from '../services/Geolocation'
@@ -71,6 +72,7 @@ container.register({
 
   // Services
   oauth2Service,
+  usernameService: asClass(FakerUsernameService),
   geolocationService: asClass(GeolocationService),
 
   // Repositories

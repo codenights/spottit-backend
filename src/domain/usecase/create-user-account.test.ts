@@ -3,13 +3,18 @@ import { UserInMemory } from '../../infrastructure/repository/UserInMemory'
 import { User } from '../model'
 
 import { createUserAccount, CreateUserAccount } from './create-user-account'
+import { UsernameService } from '../services/UsernameService'
 
 let usecase: CreateUserAccount
 let userRepository: UserRepository
+let usernameService: UsernameService
 
 beforeEach(() => {
   userRepository = UserInMemory()
-  usecase = createUserAccount({ userRepository })
+  usernameService = {
+    generateUsername: jest.fn().mockResolvedValue('username'),
+  }
+  usecase = createUserAccount({ userRepository, usernameService })
 })
 
 it('should do nothing when the user already exists', async () => {
