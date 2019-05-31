@@ -1,28 +1,25 @@
 import qs from 'querystring'
 
-import { AuthCredentials, AuthUser, AuthService } from './AuthService'
+import { OAuth2Credentials, OAuth2Service, OAuth2User } from './OAuth2Service'
 
-export class LocalAuthService implements AuthService {
+export class LocalOAuth2Service implements OAuth2Service {
   public getAuthorizeUrl(successRedirectUri: string): string {
-    return `/oauth2/google/?${qs.stringify({
+    return `/oauth2/callback/?${qs.stringify({
       code: 'authorization_code',
       state: successRedirectUri,
     })}`
   }
 
-  public getCredentials(): Promise<AuthCredentials> {
+  public getCredentials(): Promise<OAuth2Credentials> {
     return Promise.resolve({
       accessToken: 'access_token',
       refreshToken: 'refresh_token',
     })
   }
 
-  public getCurrentUser(): Promise<AuthUser> {
+  public getCurrentUser(): Promise<OAuth2User> {
     return Promise.resolve({
-      sub: 'userid',
       email: 'johndoe@gmail.com',
-      given_name: 'John',
-      family_name: 'Doe',
     })
   }
 

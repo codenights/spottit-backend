@@ -1,7 +1,7 @@
 import qs from 'querystring'
 import axios from 'axios'
 
-import { AuthCredentials, AuthUser, AuthService } from './AuthService'
+import { OAuth2Credentials, OAuth2User, OAuth2Service } from './OAuth2Service'
 
 interface Dependencies {
   googleClientId: string
@@ -22,7 +22,7 @@ const OAUTH_ENDPOINT = 'https://accounts.google.com/o/oauth2/v2/auth'
 const API_V3_ENDPOINT = 'https://www.googleapis.com/oauth2/v3'
 const API_V4_ENDPOINT = 'https://www.googleapis.com/oauth2/v4'
 
-export class GoogleAuthService implements AuthService {
+export class GoogleOAuth2Service implements OAuth2Service {
   private clientId: string
   private clientSecret: string
   private redirectUri: string
@@ -50,7 +50,7 @@ export class GoogleAuthService implements AuthService {
     })}`
   }
 
-  public getCredentials(authorizationCode: string): Promise<AuthCredentials> {
+  public getCredentials(authorizationCode: string): Promise<OAuth2Credentials> {
     return axios
       .post<GoogleTokenResponse>(`${API_V4_ENDPOINT}/token`, {
         code: authorizationCode,
@@ -66,9 +66,9 @@ export class GoogleAuthService implements AuthService {
       }))
   }
 
-  public getCurrentUser(accessToken: string): Promise<AuthUser> {
+  public getCurrentUser(accessToken: string): Promise<OAuth2User> {
     return axios
-      .get<AuthUser>(`${API_V3_ENDPOINT}/userinfo`, {
+      .get<OAuth2User>(`${API_V3_ENDPOINT}/userinfo`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

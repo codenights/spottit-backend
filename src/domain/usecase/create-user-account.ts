@@ -7,21 +7,18 @@ interface Dependencies {
   userRepository: UserRepository
 }
 
-export type LinkSocialAccount = (options: {
-  email: string
-  googleId: string
-}) => Promise<User>
+export type CreateUserAccount = (options: { email: string }) => Promise<User>
 
-export const linkSocialAccount = ({
+export const createUserAccount = ({
   userRepository,
-}: Dependencies): LinkSocialAccount => async ({ email, googleId }) => {
+}: Dependencies): CreateUserAccount => async ({ email }) => {
   const existingUser = await userRepository.findByEmail(email)
 
   if (existingUser) {
     return existingUser
   }
 
-  const user = new User(uuid.v4(), googleId, email)
+  const user = new User(uuid.v4(), email)
 
   await userRepository.persist(user)
 

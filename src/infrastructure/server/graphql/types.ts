@@ -2,7 +2,7 @@ import {
   CreateSpot,
   SearchSpots,
   GetSpot,
-  LinkSocialAccount,
+  CreateUserAccount,
 } from '../../../domain/usecase'
 import { User } from '../../../domain/model'
 import { GeolocationService } from '../../services/Geolocation'
@@ -12,7 +12,7 @@ export interface GraphlQlContext {
     createSpot: CreateSpot
     searchSpots: SearchSpots
     getSpot: GetSpot
-    linkSocialAccount: LinkSocialAccount
+    createUserAccount: CreateUserAccount
   }
   services: {
     geolocation: GeolocationService
