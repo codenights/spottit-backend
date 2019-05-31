@@ -31,7 +31,7 @@ export const configureGraphql = (app: Koa): Koa => {
       const container = getContainerFromKoaContext(koaContext)
 
       return {
-        currentUser: container.resolve('currentUser'),
+        authenticationService: container.resolve('authenticationService'),
         usecases: {
           createSpot: container.resolve('createSpot'),
           searchSpots: container.resolve('searchSpots'),

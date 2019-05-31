@@ -1,8 +1,9 @@
 import * as uuid from 'node-uuid'
 
+import { Spot, Location } from '../model'
 import { SpotRepository } from '../repository'
 import { validateLatitude, validateLongitude } from '../validation/location'
-import { Spot, Location } from '../model'
+import { AuthenticationService } from '../services/AuthenticationService'
 
 type CreateSpotOptions = {
   name: string
@@ -12,15 +13,17 @@ type CreateSpotOptions = {
 
 interface Dependencies {
   spotRepository: SpotRepository
+  authenticationService: AuthenticationService
 }
 
 export type CreateSpot = (options: CreateSpotOptions) => Promise<Spot>
 
-export const createSpot = ({ spotRepository }: Dependencies): CreateSpot => ({
-  name,
-  description,
-  location,
-}) => {
+export const createSpot = ({
+  spotRepository,
+  authenticationService,
+}: Dependencies): CreateSpot => ({ name, description, location }) => {
+  authenticationService.throwIfNotLoggedIn()
+
   validateLatitude(location.latitude)
   validateLongitude(location.longitude)
 

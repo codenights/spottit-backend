@@ -13,6 +13,7 @@ interface OpenCageDataResponse {
   }>
 }
 
+// TODO: Move the interface to domain/services
 export class GeolocationService {
   private clientId: string
 

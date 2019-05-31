@@ -1,16 +1,22 @@
 import { SpotRepository } from '../repository'
+import { AuthenticationService } from '../services/AuthenticationService'
 import { CreateSpot, createSpot } from './create-spot'
+import { User } from '../model'
 
 let usecase: CreateSpot
 let spotRepository: SpotRepository
+let authenticationService: AuthenticationService
 
 beforeEach(() => {
+  authenticationService = new AuthenticationService({
+    currentUser: new User('user-id', 'jane.doe@gmail.com'),
+  })
   spotRepository = {
     persist: jest.fn(spot => Promise.resolve(spot)),
     findByLocation: jest.fn().mockResolvedValue([]),
     findById: jest.fn(),
   }
-  usecase = createSpot({ spotRepository })
+  usecase = createSpot({ spotRepository, authenticationService })
 })
 
 describe('validation', () => {
@@ -116,6 +122,28 @@ describe('validation', () => {
         },
       })
     ).toThrow('The longitude must be in ]-180, 180[ (received 190).')
+  })
+})
+
+describe('authentication', () => {
+  it('should throw when the user is not logged in', () => {
+    // Given
+    authenticationService = new AuthenticationService({ currentUser: null })
+    usecase = createSpot({ spotRepository, authenticationService })
+
+    // When
+    const fn = () =>
+      usecase({
+        description: null,
+        location: {
+          latitude: 0.1,
+          longitude: 1.0,
+        },
+        name: 'Spot name',
+      })
+
+    //Then
+    expect(fn).toThrow()
   })
 })
 

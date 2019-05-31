@@ -4,7 +4,7 @@ import {
   GetSpot,
   CreateUserAccount,
 } from '../../../domain/usecase'
-import { User } from '../../../domain/model'
+import { AuthenticationService } from '../../../domain/services/AuthenticationService'
 import { GeolocationService } from '../../services/Geolocation'
 
 export interface GraphlQlContext {
@@ -17,5 +17,5 @@ export interface GraphlQlContext {
   services: {
     geolocation: GeolocationService
   }
-  currentUser: User | null
+  authenticationService: AuthenticationService
 }

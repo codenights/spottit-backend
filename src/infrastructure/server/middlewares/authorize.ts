@@ -1,9 +1,10 @@
 import Koa from 'koa'
-import { asValue } from 'awilix'
+import { asClass } from 'awilix'
 import { makeInvoker } from 'awilix-koa'
 
 import { UserRepository } from '../../../domain/repository'
 import { User } from '../../../domain/model'
+import { AuthenticationService } from '../../../domain/services/AuthenticationService'
 import { OAuth2Service } from '../../../infrastructure/services/OAuth2Service'
 import { getContainerFromKoaContext } from '../util'
 import { setAuthenticationError } from '../errors'
@@ -41,10 +42,14 @@ class AuthorizationMiddleware {
       if (accessToken) {
         const oauthUser = await this.oauth2Service.getCurrentUser(accessToken)
         currentUser = await this.userRepository.findByEmail(oauthUser.email)
+
+        // TODO: Throw if the user is not found?
       }
 
       container.register({
-        currentUser: asValue(currentUser),
+        authenticationService: asClass(AuthenticationService)
+          .inject(() => ({ currentUser }))
+          .singleton(),
       })
 
       return next()
