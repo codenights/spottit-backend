@@ -2,31 +2,31 @@ import Koa from 'koa'
 import dotenv from 'dotenv'
 import { createContainer, asFunction, asValue, asClass, Resolver } from 'awilix'
 
-import { configureMiddlewares } from './middlewares'
-import { configureRoutes } from './routes'
-import { SpotInMemory } from '../repository/SpotInMemory'
 import {
   createSpot,
   searchSpots,
   getSpot,
   linkSocialAccount,
 } from '../../domain/usecase'
-import { GeolocationService } from '../services/Geolocation'
+import { SpotInMemory } from '../repository/SpotInMemory'
 import { UserInMemory } from '../repository/UserInMemory'
-import { GoogleAuthService } from '../services/GoogleAuthService'
+import { GeolocationService } from '../services/Geolocation'
+import { OAuth2Service } from '../services/OAuth2Service'
+import { GoogleOAuth2Service } from '../services/GoogleOAuth2Service'
+import { LocalOAuth2Service } from '../services/LocalOAuth2Service'
 import { configureGraphql } from './graphql'
-import { LocalAuthService } from '../services/LocalAuthService'
-import { AuthService } from '../services/AuthService'
+import { configureMiddlewares } from './middlewares'
+import { configureRoutes } from './routes'
 
 dotenv.config()
 
 const identityProvider = process.env.IDENTITY_PROVIDER
 const corsAllowedOrigin = process.env.CORS_ALLOWED_ORIGIN
 
-let authService: Resolver<AuthService>
+let oauth2Service: Resolver<OAuth2Service>
 
 if (identityProvider === 'local') {
-  authService = asClass(LocalAuthService)
+  oauth2Service = asClass(LocalOAuth2Service)
 } else if (identityProvider === 'google') {
   const googleClientId = process.env.OAUTH2_GOOGLE_API_KEY
   const googleClientSecret = process.env.OAUTH2_GOOGLE_API_SECRET
@@ -48,10 +48,10 @@ if (identityProvider === 'local') {
     )
   }
 
-  authService = asClass(GoogleAuthService).inject(() => ({
-    googleClientId: asValue(googleClientId),
-    googleClientSecret: asValue(googleClientSecret),
-    googleRedirectUri: asValue(googleRedirectUri),
+  oauth2Service = asClass(GoogleOAuth2Service).inject(() => ({
+    googleClientId,
+    googleClientSecret,
+    googleRedirectUri,
   }))
 } else {
   throw new Error('Environment variable "IDENTITY_PROVIDER" is required')
@@ -70,7 +70,7 @@ container.register({
   corsAllowedOrigin: asValue(corsAllowedOrigin),
 
   // Services
-  authService,
+  oauth2Service,
   geolocationService: asClass(GeolocationService),
 
   // Repositories

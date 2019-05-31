@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 import { castToJestMock } from '../../test-utils'
-import { GoogleAuthService } from './GoogleAuthService'
+import { GoogleOAuth2Service } from './GoogleOAuth2Service'
 
 jest.mock('axios')
 
-let service: GoogleAuthService
+let service: GoogleOAuth2Service
 
 beforeEach(() => {
-  service = new GoogleAuthService({
+  service = new GoogleOAuth2Service({
     googleClientId: 'client-id',
     googleClientSecret: 'client-secret',
     googleRedirectUri: 'redirect-uri',

@@ -1,12 +1,11 @@
 import qs from 'querystring'
 import Koa from 'koa'
-import router from 'koa-route'
 import Joi from '@hapi/joi'
+import { makeInvoker } from 'awilix-koa'
 
 import { LinkSocialAccount } from '../../../../domain/usecase'
-import { AuthService } from '../../../../infrastructure/services/AuthService'
+import { OAuth2Service } from '../../../services/OAuth2Service'
 import { validateSchemaOrThrow } from '../../util'
-import { makeInvoker } from 'awilix-koa'
 
 interface AuthorizeQuery {
   redirect: string
@@ -18,16 +17,16 @@ interface Oauth2Query {
 }
 
 interface Dependencies {
-  authService: AuthService
+  oauth2Service: OAuth2Service
   linkSocialAccount: LinkSocialAccount
 }
 
-class GoogleOauth2Api {
-  private authService: AuthService
+class OAuth2Middleware {
+  private oauth2Service: OAuth2Service
   private linkSocialAccount: LinkSocialAccount
 
-  public constructor({ authService, linkSocialAccount }: Dependencies) {
-    this.authService = authService
+  public constructor({ oauth2Service, linkSocialAccount }: Dependencies) {
+    this.oauth2Service = oauth2Service
     this.linkSocialAccount = linkSocialAccount
   }
 
@@ -42,7 +41,7 @@ class GoogleOauth2Api {
       query
     )
 
-    ctx.redirect(this.authService.getAuthorizeUrl(query.redirect))
+    ctx.redirect(this.oauth2Service.getAuthorizeUrl(query.redirect))
   }
 
   public handleOauth2Callback: Koa.Middleware = async ctx => {
@@ -61,15 +60,15 @@ class GoogleOauth2Api {
     const code = query.code
     const redirectUri = query.state
 
-    const { accessToken, refreshToken } = await this.authService.getCredentials(
-      code
-    )
+    const {
+      accessToken,
+      refreshToken,
+    } = await this.oauth2Service.getCredentials(code)
 
-    const user = await this.authService.getCurrentUser(accessToken)
+    const user = await this.oauth2Service.getCurrentUser(accessToken)
 
     await this.linkSocialAccount({
       email: user.email,
-      googleId: user.sub,
     })
 
     ctx.redirect(
@@ -81,9 +80,8 @@ class GoogleOauth2Api {
   }
 }
 
-const handler = makeInvoker(GoogleOauth2Api)
+const invoker = makeInvoker(OAuth2Middleware)
 
-export const configureGoogleRoutes = (app: Koa): Koa =>
-  app
-    .use(router.get('/authorize/google', handler('redirectToLogin')))
-    .use(router.get('/oauth2/google', handler('handleOauth2Callback')))
+export const redirectToLoginMiddleware = invoker('redirectToLogin')
+
+export const handleOauth2CallbackMiddleware = invoker('handleOauth2Callback')

@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import router from 'koa-route'
 
-import { refreshHandler } from './google'
+import { refreshMiddleware } from './refresh'
 
 export const configureRefresh = (app: Koa): Koa =>
-  app.use(router.post('/refresh', refreshHandler))
+  app.use(router.post('/refresh', refreshMiddleware))

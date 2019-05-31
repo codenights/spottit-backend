@@ -4,13 +4,13 @@ import { makeInvoker } from 'awilix-koa'
 
 import { UserRepository } from '../../../domain/repository'
 import { User } from '../../../domain/model'
-import { AuthService } from '../../../infrastructure/services/AuthService'
+import { OAuth2Service } from '../../../infrastructure/services/OAuth2Service'
 import { getContainerFromKoaContext } from '../util'
 import { setAuthenticationError } from '../errors'
 
 interface Dependencies {
   userRepository: UserRepository
-  authService: AuthService
+  oauth2Service: OAuth2Service
 }
 
 const getAccessTokenFromHeaders = (
@@ -24,11 +24,11 @@ const getAccessTokenFromHeaders = (
 
 class AuthorizationMiddleware {
   private userRepository: UserRepository
-  private authService: AuthService
+  private oauth2Service: OAuth2Service
 
-  public constructor({ userRepository, authService }: Dependencies) {
+  public constructor({ userRepository, oauth2Service }: Dependencies) {
     this.userRepository = userRepository
-    this.authService = authService
+    this.oauth2Service = oauth2Service
   }
 
   public authorize: Koa.Middleware = async (ctx, next) => {
@@ -39,8 +39,8 @@ class AuthorizationMiddleware {
 
     try {
       if (accessToken) {
-        const googleUser = await this.authService.getCurrentUser(accessToken)
-        currentUser = await this.userRepository.findByEmail(googleUser.email)
+        const oauthUser = await this.oauth2Service.getCurrentUser(accessToken)
+        currentUser = await this.userRepository.findByEmail(oauthUser.email)
       }
 
       container.register({
@@ -54,6 +54,6 @@ class AuthorizationMiddleware {
   }
 }
 
-export const authorizationMiddleware = makeInvoker(AuthorizationMiddleware)(
-  'authorize'
-)
+const invoker = makeInvoker(AuthorizationMiddleware)
+
+export const authorizeMiddleware = invoker('authorize')

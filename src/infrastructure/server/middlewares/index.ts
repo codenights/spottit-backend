@@ -4,7 +4,7 @@ import { scopePerRequest } from 'awilix-koa'
 import bodyParser from 'koa-bodyparser'
 import cors from '@koa/cors'
 
-import { authorizationMiddleware } from './authorize'
+import { authorizeMiddleware } from './authorize'
 
 export const configureMiddlewares = (
   app: Koa,
@@ -18,7 +18,7 @@ export const configureMiddlewares = (
     )
     .use(bodyParser())
     .use(scopePerRequest(container))
-    .use(authorizationMiddleware)
+    .use(authorizeMiddleware)
 
   return app
 }
