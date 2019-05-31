@@ -6,7 +6,7 @@ import {
   createSpot,
   searchSpots,
   getSpot,
-  linkSocialAccount,
+  createUserAccount,
 } from '../../domain/usecase'
 import { SpotInMemory } from '../repository/SpotInMemory'
 import { UserInMemory } from '../repository/UserInMemory'
@@ -81,7 +81,7 @@ container.register({
   createSpot: asFunction(createSpot),
   searchSpots: asFunction(searchSpots),
   getSpot: asFunction(getSpot),
-  linkSocialAccount: asFunction(linkSocialAccount),
+  createUserAccount: asFunction(createUserAccount),
 })
 
 const app = new Koa()

@@ -3,7 +3,7 @@ import Koa from 'koa'
 import Joi from '@hapi/joi'
 import { makeInvoker } from 'awilix-koa'
 
-import { LinkSocialAccount } from '../../../../domain/usecase'
+import { CreateUserAccount } from '../../../../domain/usecase'
 import { OAuth2Service } from '../../../services/OAuth2Service'
 import { validateSchemaOrThrow } from '../../util'
 
@@ -18,16 +18,16 @@ interface Oauth2Query {
 
 interface Dependencies {
   oauth2Service: OAuth2Service
-  linkSocialAccount: LinkSocialAccount
+  createUserAccount: CreateUserAccount
 }
 
 class OAuth2Middleware {
   private oauth2Service: OAuth2Service
-  private linkSocialAccount: LinkSocialAccount
+  private createUserAccount: CreateUserAccount
 
-  public constructor({ oauth2Service, linkSocialAccount }: Dependencies) {
+  public constructor({ oauth2Service, createUserAccount }: Dependencies) {
     this.oauth2Service = oauth2Service
-    this.linkSocialAccount = linkSocialAccount
+    this.createUserAccount = createUserAccount
   }
 
   public redirectToLogin: Koa.Middleware = ctx => {
@@ -67,7 +67,7 @@ class OAuth2Middleware {
 
     const user = await this.oauth2Service.getCurrentUser(accessToken)
 
-    await this.linkSocialAccount({
+    await this.createUserAccount({
       email: user.email,
     })
 

@@ -2,14 +2,14 @@ import { UserRepository } from '../repository'
 import { UserInMemory } from '../../infrastructure/repository/UserInMemory'
 import { User } from '../model'
 
-import { linkSocialAccount, LinkSocialAccount } from './link-social-account'
+import { createUserAccount, CreateUserAccount } from './create-user-account'
 
-let usecase: LinkSocialAccount
+let usecase: CreateUserAccount
 let userRepository: UserRepository
 
 beforeEach(() => {
   userRepository = UserInMemory()
-  usecase = linkSocialAccount({ userRepository })
+  usecase = createUserAccount({ userRepository })
 })
 
 it('should do nothing when the user already exists', async () => {

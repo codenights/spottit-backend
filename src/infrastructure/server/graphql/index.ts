@@ -36,7 +36,7 @@ export const configureGraphql = (app: Koa): Koa => {
           createSpot: container.resolve('createSpot'),
           searchSpots: container.resolve('searchSpots'),
           getSpot: container.resolve('getSpot'),
-          linkSocialAccount: container.resolve('linkSocialAccount'),
+          createUserAccount: container.resolve('createUserAccount'),
         },
         services: {
           geolocation: container.resolve('geolocationService'),
