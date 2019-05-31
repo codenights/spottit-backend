@@ -15,7 +15,7 @@ it('isLoggedIn: returns false when the current user is null', () => {
 
 it('isLoggedIn: returns true when the current user is defined', () => {
   // Given
-  const currentUser = new User('user-id', 'jane.doe@gmail.com')
+  const currentUser = new User('user-id', 'jane.doe@gmail.com', 'janedoe')
   const service = new AuthenticationService({ currentUser })
 
   // When
@@ -27,7 +27,7 @@ it('isLoggedIn: returns true when the current user is defined', () => {
 
 it('getCurrentUser: returns the user if defined', () => {
   // Given
-  const currentUser = new User('user-id', 'jane.doe@gmail.com')
+  const currentUser = new User('user-id', 'jane.doe@gmail.com', 'janedoe')
   const service = new AuthenticationService({ currentUser })
 
   // When
