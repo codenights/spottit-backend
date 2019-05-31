@@ -9,10 +9,16 @@ beforeEach(() => {
   spotRepository = {
     persist: jest.fn(),
     findByLocation: jest.fn().mockResolvedValue([
-      new Spot('spot-id', 'Parc Robinson', null, {
-        latitude: 0,
-        longitude: 0,
-      }),
+      new Spot(
+        'spot-id',
+        'Parc Robinson',
+        null,
+        {
+          latitude: 0,
+          longitude: 0,
+        },
+        'user-id-1'
+      ),
     ]),
     findById: jest.fn(),
   }
@@ -120,9 +126,15 @@ it('should resolve the new spot', async () => {
   })
 
   expect(spots).toEqual([
-    new Spot('spot-id', 'Parc Robinson', null, {
-      latitude: 0,
-      longitude: 0,
-    }),
+    new Spot(
+      'spot-id',
+      'Parc Robinson',
+      null,
+      {
+        latitude: 0,
+        longitude: 0,
+      },
+      'user-id-1'
+    ),
   ])
 })

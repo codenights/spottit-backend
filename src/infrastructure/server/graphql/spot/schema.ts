@@ -6,6 +6,7 @@ export const SpotSchema = gql`
     name: String!
     description: String
     location: Location!
+    author: User!
   }
 
   input CreateSpotInput {

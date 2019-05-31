@@ -24,10 +24,16 @@ it('should throw an error when the spot is not found', () => {
 })
 
 it('should resolve the spot', async () => {
-  const spot = new Spot('spot-id', 'spot name', null, {
-    latitude: 0,
-    longitude: 0,
-  })
+  const spot = new Spot(
+    'spot-id',
+    'spot name',
+    null,
+    {
+      latitude: 0,
+      longitude: 0,
+    },
+    'user-id-1'
+  )
   ;(spotRepository.findById as jest.Mock).mockResolvedValue(spot)
 
   const result = await usecase({ id: 'spot-id' })

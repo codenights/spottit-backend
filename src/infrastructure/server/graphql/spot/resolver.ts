@@ -1,4 +1,4 @@
-import { Spot } from '../../../../domain/model'
+import { Spot as SpotModel, User as UserModel } from '../../../../domain/model'
 import { GraphlQlContext } from '../types'
 
 interface MutationResolver {
@@ -13,7 +13,7 @@ interface MutationResolver {
       }
     },
     context: GraphlQlContext
-  ) => Promise<Spot>
+  ) => Promise<SpotModel>
 }
 
 interface QueryResolver {
@@ -27,12 +27,32 @@ interface QueryResolver {
       }
     },
     context: GraphlQlContext
-  ) => Promise<Spot[]>
+  ) => Promise<SpotModel[]>
   spot: (
     parent: null,
     args: { id: string },
     context: GraphlQlContext
-  ) => Promise<Spot>
+  ) => Promise<SpotModel>
+}
+
+interface SpotResolver {
+  author: (
+    spot: SpotModel,
+    args: null,
+    ctx: GraphlQlContext
+  ) => Promise<UserModel>
+}
+
+const Spot: SpotResolver = {
+  author: async (spot, _args, context) => {
+    const user = await context.repositories.user.findById(spot.authorId)
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    return user
+  },
 }
 
 const Query: QueryResolver = {
@@ -54,11 +74,12 @@ const Mutation: MutationResolver = {
         latitude: input.latitude,
         longitude: input.longitude,
       },
+      authorId: context.services.authentication.getCurrentUser().id,
     }),
 }
 
 export const SpotResolvers = {
-  Spot: {},
+  Spot,
   Query,
   Mutation,
 }
