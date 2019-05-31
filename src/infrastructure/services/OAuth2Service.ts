@@ -7,6 +7,7 @@ export interface OAuth2Credentials {
   refreshToken: string
 }
 
+// TODO: Move the interface to domain/services
 export interface OAuth2Service {
   getAuthorizeUrl(successRedirectUri: string): string
   getCredentials(authorizationCode: string): Promise<OAuth2Credentials>
