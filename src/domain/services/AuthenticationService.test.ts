@@ -9,7 +9,7 @@ it('isLoggedIn: returns false when the current user is null', () => {
   // When
   const result = service.isLoggedIn()
 
-  //Then
+  // Then
   expect(result).toEqual(false)
 })
 
@@ -21,7 +21,7 @@ it('isLoggedIn: returns true when the current user is defined', () => {
   // When
   const result = service.isLoggedIn()
 
-  //Then
+  // Then
   expect(result).toEqual(true)
 })
 
@@ -33,7 +33,7 @@ it('getCurrentUser: returns the user if defined', () => {
   // When
   const result = service.getCurrentUser()
 
-  //Then
+  // Then
   expect(result).toEqual(currentUser)
 })
 
@@ -43,8 +43,8 @@ it('getCurrentUser: throws an error if the user is not defined', () => {
   const service = new AuthenticationService({ currentUser })
 
   // When
-  const fn = () => service.getCurrentUser()
+  const fn = (): unknown => service.getCurrentUser()
 
-  //Then
-  expect(fn).toThrowError(new Error('Current user is not logged in'))
+  // Then
+  expect(fn).toThrow(new Error('Current user is not logged in'))
 })

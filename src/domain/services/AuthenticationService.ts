@@ -11,7 +11,7 @@ export class AuthenticationService {
     this.currentUser = currentUser
   }
 
-  public isLoggedIn() {
+  public isLoggedIn(): boolean {
     return Boolean(this.currentUser)
   }
 
@@ -23,7 +23,7 @@ export class AuthenticationService {
     return this.currentUser
   }
 
-  public throwIfNotLoggedIn() {
+  public throwIfNotLoggedIn(): void {
     this.getCurrentUser()
   }
 }

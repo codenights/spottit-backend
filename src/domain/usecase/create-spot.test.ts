@@ -132,7 +132,7 @@ describe('authentication', () => {
     usecase = createSpot({ spotRepository, authenticationService })
 
     // When
-    const fn = () =>
+    const fn = (): unknown =>
       usecase({
         description: null,
         location: {
@@ -142,7 +142,7 @@ describe('authentication', () => {
         name: 'Spot name',
       })
 
-    //Then
+    // Then
     expect(fn).toThrow()
   })
 })

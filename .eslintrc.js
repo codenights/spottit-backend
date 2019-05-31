@@ -9,6 +9,7 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/camelcase': 'off',
+    'no-warning-comments': 'off',
     'new-cap': 'off',
     'import/no-unresolved': 'off', // False negatives
     'import/named': 'off', // False negatives
