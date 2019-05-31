@@ -14,7 +14,7 @@ beforeEach(() => {
 
 it('should do nothing when the user already exists', async () => {
   // Given
-  const user = new User('user-id', 'john.doe@example.com')
+  const user = new User('user-id', 'john.doe@example.com', 'johndoe')
   await userRepository.persist(user)
   const spy = jest.spyOn(userRepository, 'persist')
 
@@ -42,8 +42,10 @@ it('should create the user when it does not exist', async () => {
     expect.objectContaining({
       email: 'john.doe@example.com',
       id: expect.any(String),
+      username: expect.any(String),
     })
   )
   expect(result.email).toEqual('john.doe@example.com')
   expect(result.id).toEqual(expect.any(String))
+  expect(result.username).toEqual(expect.any(String))
 })

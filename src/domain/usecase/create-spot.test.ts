@@ -9,7 +9,7 @@ let authenticationService: AuthenticationService
 
 beforeEach(() => {
   authenticationService = new AuthenticationService({
-    currentUser: new User('user-id', 'jane.doe@gmail.com'),
+    currentUser: new User('user-id', 'jane.doe@gmail.com', 'janedoe'),
   })
   spotRepository = {
     persist: jest.fn(spot => Promise.resolve(spot)),

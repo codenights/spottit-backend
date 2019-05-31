@@ -5,8 +5,8 @@ interface Database {
   [key: string]: User
 }
 
-const user1 = new User('user-id-1', 'richard.doe@gmail.com')
-const user2 = new User('user-id-2', 'jane.doe@gmail.com')
+const user1 = new User('user-id-1', 'richard.doe@gmail.com', 'richarddoe')
+const user2 = new User('user-id-2', 'jane.doe@gmail.com', 'janedoe')
 
 export const UserInMemory = (): UserRepository => {
   const database: Database = {
@@ -27,6 +27,10 @@ export const UserInMemory = (): UserRepository => {
     findByEmail: email =>
       Promise.resolve(
         Object.values(database).find(user => user.email === email) || null
+      ),
+    findByUsername: username =>
+      Promise.resolve(
+        Object.values(database).find(user => user.username === username) || null
       ),
   }
 }
