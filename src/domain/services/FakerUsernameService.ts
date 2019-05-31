@@ -28,6 +28,6 @@ export class FakerUsernameService implements UsernameService {
       }
     } while (!username)
 
-    return username
+    return username.replace(/[^a-z|0-9]/g, '_')
   }
 }
