@@ -20,6 +20,10 @@ export const UserInMemory = (): UserRepository => {
 
       return Promise.resolve(user)
     },
+    findById: id =>
+      Promise.resolve(
+        Object.values(database).find(user => user.id === id) || null
+      ),
     findByEmail: email =>
       Promise.resolve(
         Object.values(database).find(user => user.email === email) || null
