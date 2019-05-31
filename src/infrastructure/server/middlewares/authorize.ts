@@ -47,9 +47,9 @@ class AuthorizationMiddleware {
       }
 
       container.register({
-        authenticationService: asClass(AuthenticationService)
-          .inject(() => ({ currentUser }))
-          .singleton(),
+        authenticationService: asClass(AuthenticationService).inject(() => ({
+          currentUser,
+        })),
       })
 
       return next()
