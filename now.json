@@ -6,8 +6,5 @@
     "CORS_ALLOWED_ORIGIN": "*",
     "IDENTITY_PROVIDER": "local",
     "OPENCAGEDATA_API_KEY": "@opencagedata_api_key"
-  },
-  "builds": [
-    { "src": "./src/infrastructure/server/index.ts", "use": "@now/node" }
-  ]
+  }
 }
