@@ -136,7 +136,7 @@ const database: Database = {
 
 const degreesToRadians = (value: number): number => (value * Math.PI) / 180
 
-const getDistance = (p1: Location, p2: Location) =>
+const getDistance = (p1: Location, p2: Location): number =>
   p1.latitude === p2.latitude && p1.longitude === p2.longitude
     ? 0
     : Math.acos(
@@ -158,15 +158,9 @@ export const SpotInMemory = (): SpotRepository => {
     },
 
     findByLocation: (latitude, longitude, radius) => {
-      console.log('Finding spots for center:', { latitude, longitude })
       const matchingSpots = Object.values(database)
-        .filter(({ location, name }) => {
+        .filter(({ location }) => {
           const distance = getDistance({ latitude, longitude }, location)
-          console.group('Spot')
-          console.log('Name:', name)
-          console.log('Location:', location)
-          console.log('Distance:', distance)
-          console.groupEnd()
 
           return distance <= radius
         })

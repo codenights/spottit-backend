@@ -30,7 +30,7 @@ it('generateUsername: should return a username', async () => {
   // When
   const result = await service.generateUsername()
 
-  //Then
+  // Then
   expect(result).toEqual('adjectivenoun')
 })
 
@@ -50,7 +50,7 @@ it('generateUsername: should retry if the generated username is already taken', 
   // When
   const result = await service.generateUsername()
 
-  //Then
+  // Then
   expect(userRepository.findByUsername).toHaveBeenCalledTimes(2)
   expect(result).toEqual('adjectivenoun')
 })
@@ -75,6 +75,6 @@ it('generateUsername: should replace all non alphanumeric characters by undersco
   // When
   const result = await service.generateUsername()
 
-  //Then
+  // Then
   expect(result).toEqual('toto_09espace__asticot98______')
 })
