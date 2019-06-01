@@ -1,5 +1,5 @@
 import { SpotRepository } from '../../domain/repository'
-import { Spot } from '../../domain/model'
+import { Spot, Location } from '../../domain/model'
 
 interface Database {
   [key: string]: Spot
@@ -136,6 +136,19 @@ const database: Database = {
 
 const degreesToRadians = (value: number): number => (value * Math.PI) / 180
 
+const getDistance = (p1: Location, p2: Location): number =>
+  p1.latitude === p2.latitude && p1.longitude === p2.longitude
+    ? 0
+    : Math.acos(
+        Math.cos(degreesToRadians(p1.latitude)) *
+          Math.cos(degreesToRadians(p2.latitude)) *
+          Math.cos(
+            degreesToRadians(p1.longitude) - degreesToRadians(p2.longitude)
+          ) +
+          Math.sin(degreesToRadians(p1.latitude)) *
+            Math.sin(degreesToRadians(p2.latitude))
+      ) * 6371
+
 export const SpotInMemory = (): SpotRepository => {
   return {
     persist: spot => {
@@ -145,21 +158,18 @@ export const SpotInMemory = (): SpotRepository => {
     },
 
     findByLocation: (latitude, longitude, radius) => {
-      const matchingSpots = Object.values(database).filter(({ location }) => {
-        const distance =
-          Math.acos(
-            Math.cos(degreesToRadians(latitude)) *
-              Math.cos(degreesToRadians(location.latitude)) *
-              Math.cos(
-                degreesToRadians(longitude) -
-                  degreesToRadians(location.longitude)
-              ) +
-              Math.sin(degreesToRadians(latitude)) *
-                Math.sin(degreesToRadians(location.latitude))
-          ) * 6371
+      const matchingSpots = Object.values(database)
+        .filter(({ location }) => {
+          const distance = getDistance({ latitude, longitude }, location)
 
-        return distance <= radius
-      })
+          return distance <= radius
+        })
+        .sort((a, b) => {
+          const aDistance = getDistance({ latitude, longitude }, a.location)
+          const bDistance = getDistance({ latitude, longitude }, b.location)
+
+          return aDistance - bDistance
+        })
 
       return Promise.resolve(matchingSpots)
     },
