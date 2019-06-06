@@ -14,5 +14,9 @@ export const CommentInMemory = (): CommentRepository => {
 
       return Promise.resolve(comment)
     },
+    findBySpotId: spotId =>
+      Promise.resolve(
+        Object.values(database).filter(comment => comment.spotId === spotId)
+      ),
   }
 }

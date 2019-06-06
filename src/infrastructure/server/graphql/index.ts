@@ -48,6 +48,7 @@ export const configureGraphql = (app: Koa): Koa => {
         repositories: {
           user: container.resolve('userRepository'),
           spot: container.resolve('spotRepository'),
+          comment: container.resolve('commentRepository'),
         },
       }
     },

@@ -1,4 +1,8 @@
-import { Spot as SpotModel, User as UserModel } from '../../../../domain/model'
+import {
+  Spot as SpotModel,
+  User as UserModel,
+  Comment as CommentModel,
+} from '../../../../domain/model'
 import { GraphlQlContext } from '../types'
 
 interface MutationResolver {
@@ -41,6 +45,11 @@ interface SpotResolver {
     args: null,
     ctx: GraphlQlContext
   ) => Promise<UserModel>
+  comments: (
+    spot: SpotModel,
+    args: null,
+    ctx: GraphlQlContext
+  ) => Promise<CommentModel[]>
 }
 
 const Spot: SpotResolver = {
@@ -53,6 +62,8 @@ const Spot: SpotResolver = {
 
     return user
   },
+  comments: (spot, _args, context) =>
+    context.repositories.comment.findBySpotId(spot.id),
 }
 
 const Query: QueryResolver = {

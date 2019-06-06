@@ -4,7 +4,11 @@ import {
   GetSpot,
   CreateUserAccount,
 } from '../../../domain/usecase'
-import { UserRepository, SpotRepository } from '../../../domain/repository'
+import {
+  UserRepository,
+  SpotRepository,
+  CommentRepository,
+} from '../../../domain/repository'
 import { AuthenticationService } from '../../../domain/services/AuthenticationService'
 import { GeolocationService } from '../../services/Geolocation'
 import { AddComment } from 'src/domain/usecase/add-comment'
@@ -24,5 +28,6 @@ export interface GraphlQlContext {
   repositories: {
     user: UserRepository
     spot: SpotRepository
+    comment: CommentRepository
   }
 }
