@@ -5,8 +5,10 @@ import Koa from 'koa'
 import { SpotSchema } from './spot/schema'
 import { LocationSchema } from './location/schema'
 import { UserSchema } from './user/schema'
+import { CommentSchema } from './comment/schema'
 import { SpotResolvers } from './spot/resolver'
 import { LocationResolvers } from './location/resolver'
+import { CommentResolver } from './comment/resolvers'
 import { GraphlQlContext } from './types'
 import { getContainerFromKoaContext } from '../util'
 
@@ -20,9 +22,9 @@ const Query = gql`
 `
 
 const schema = makeExecutableSchema({
-  typeDefs: [Query, SpotSchema, LocationSchema, UserSchema],
+  typeDefs: [Query, SpotSchema, LocationSchema, UserSchema, CommentSchema],
   // @ts-ignore
-  resolvers: merge(SpotResolvers, LocationResolvers),
+  resolvers: merge(SpotResolvers, LocationResolvers, CommentResolver),
 })
 
 export const configureGraphql = (app: Koa): Koa => {
@@ -37,6 +39,7 @@ export const configureGraphql = (app: Koa): Koa => {
           searchSpots: container.resolve('searchSpots'),
           getSpot: container.resolve('getSpot'),
           createUserAccount: container.resolve('createUserAccount'),
+          addComment: container.resolve('addComment'),
         },
         services: {
           authentication: container.resolve('authenticationService'),
@@ -44,6 +47,7 @@ export const configureGraphql = (app: Koa): Koa => {
         },
         repositories: {
           user: container.resolve('userRepository'),
+          spot: container.resolve('spotRepository'),
         },
       }
     },

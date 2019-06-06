@@ -9,8 +9,10 @@ import {
   createUserAccount,
 } from '../../domain/usecase'
 import { FakerUsernameService } from '../../domain/services/FakerUsernameService'
+import { addComment } from '../../domain/usecase/add-comment'
 import { SpotInMemory } from '../repository/SpotInMemory'
 import { UserInMemory } from '../repository/UserInMemory'
+import { CommentInMemory } from '../repository/CommentInMemory'
 import { GeolocationService } from '../services/Geolocation'
 import { OAuth2Service } from '../services/OAuth2Service'
 import { GoogleOAuth2Service } from '../services/GoogleOAuth2Service'
@@ -78,12 +80,14 @@ container.register({
   // Repositories
   spotRepository: asFunction(SpotInMemory).singleton(),
   userRepository: asFunction(UserInMemory).singleton(),
+  commentRepository: asFunction(CommentInMemory).singleton(),
 
   // Use cases
   createSpot: asFunction(createSpot),
   searchSpots: asFunction(searchSpots),
   getSpot: asFunction(getSpot),
   createUserAccount: asFunction(createUserAccount),
+  addComment: asFunction(addComment),
 })
 
 const app = new Koa()
