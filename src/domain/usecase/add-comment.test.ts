@@ -8,7 +8,7 @@ let spotRepository: SpotRepository
 let authenticationService: AuthenticationService
 let commentRepository: CommentRepository
 
-const getTestSpot = () =>
+const getTestSpot = (): Spot =>
   new Spot(
     'spot-id',
     'spot-name',
@@ -20,7 +20,8 @@ const getTestSpot = () =>
     'author-id'
   )
 
-const getTestUser = () => new User('user-id', 'jane.doe@gmail.com', 'janedoe')
+const getTestUser = (): User =>
+  new User('user-id', 'jane.doe@gmail.com', 'janedoe')
 
 beforeEach(() => {
   authenticationService = new AuthenticationService({
@@ -33,6 +34,7 @@ beforeEach(() => {
   }
   commentRepository = {
     persist: jest.fn(),
+    findBySpotId: jest.fn(),
   }
 })
 
@@ -101,7 +103,7 @@ describe('authentication', () => {
   it('should throw when the user is not logged in', () => {
     // Given
     ;(spotRepository.findById as jest.Mock).mockResolvedValue(getTestSpot())
-    const authenticationService = new AuthenticationService({
+    authenticationService = new AuthenticationService({
       currentUser: null,
     })
 
@@ -121,7 +123,7 @@ describe('authentication', () => {
 it('should save a new comment', async () => {
   // Given
   ;(spotRepository.findById as jest.Mock).mockResolvedValue(getTestSpot())
-  const authenticationService = new AuthenticationService({
+  authenticationService = new AuthenticationService({
     currentUser: getTestUser(),
   })
 
@@ -149,7 +151,7 @@ it('should save a new comment', async () => {
 it('should resolve the new comment', async () => {
   // Given
   ;(spotRepository.findById as jest.Mock).mockResolvedValue(getTestSpot())
-  const authenticationService = new AuthenticationService({
+  authenticationService = new AuthenticationService({
     currentUser: getTestUser(),
   })
 
