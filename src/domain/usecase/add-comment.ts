@@ -36,7 +36,7 @@ export const addComment = ({
 
   const commentId = uuid.v4()
   const user = authenticationService.getCurrentUser()
-  const comment = new Comment(commentId, user.id, spot.id, body)
+  const comment = new Comment(commentId, user.id, spot.id, body, new Date())
 
   await commentRepository.persist(comment)
 

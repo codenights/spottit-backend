@@ -144,6 +144,7 @@ it('should save a new comment', async () => {
       body: 'comment body',
       spotId: 'spot-id',
       authorId: 'user-id',
+      createdAt: expect.any(Date),
     })
   )
 })
@@ -171,6 +172,7 @@ it('should resolve the new comment', async () => {
       body: 'comment body',
       spotId: 'spot-id',
       authorId: 'user-id',
+      createdAt: expect.any(Date),
     })
   )
 })

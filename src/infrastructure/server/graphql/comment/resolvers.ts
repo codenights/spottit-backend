@@ -19,6 +19,7 @@ interface MutationResolver {
 }
 
 interface CommentResolver {
+  createdAt: (comment: CommentModel) => string
   author: (
     comment: CommentModel,
     args: null,
@@ -32,6 +33,7 @@ interface CommentResolver {
 }
 
 const Comment: CommentResolver = {
+  createdAt: comment => comment.createdAt.toUTCString(),
   author: async (comment, _args, context) => {
     const user = await context.repositories.user.findById(comment.authorId)
 

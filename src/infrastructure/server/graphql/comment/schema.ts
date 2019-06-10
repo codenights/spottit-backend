@@ -6,6 +6,7 @@ export const CommentSchema = gql`
     author: User!
     spot: Spot!
     body: String!
+    createdAt: String!
   }
 
   input AddCommentInput {

@@ -18,7 +18,8 @@ Ignisque Lyncides vacet, et longo, laudibus Hyperborea ablata tollentes, fecit
 sibi positis. Ait hic iuvenem, satus tempora; poma crebri, ingens, det armo imum
 ore. Proelia sed crinem et huc altera fortuna! In occiduae [graves
 quid](http://www.caper-amplectitur.org/sacrosat) traiecit, qui quondam Iovis,
-[sumpsitque](http://atque.org/).`
+[sumpsitque](http://atque.org/).`,
+  new Date(Date.UTC(2019, 3, 16))
 )
 const comment2 = new Comment(
   'comment-2',
@@ -40,7 +41,8 @@ praecordia! Volucrum accepti placebimus spatio victoria super iuvenem? [Pro in
 paterno](http://mortes.io/addidit) videbor; fame terra auctor silicem: cucurri,
 sit et. Vectus est spretae arcana; sua vox essent cristis antemnas frena penset
 me oculos trahuntur adurat formamque [infelix](http://pellis.org/causahabet).
-`
+`,
+  new Date(Date.UTC(2019, 3, 17))
 )
 const comment3 = new Comment(
   'comment-3',
@@ -66,7 +68,8 @@ inmiti.
 
 Ripam aut hoc clauditur senemque parat, et est tempora telae, sit ferat
 **laborem veluti** in nitidumque. Fugam semper maiora; arte hostes et sacerdotis
-factoque discordibus atque causa nodis tenet Achilles solvit omnis fluctus.`
+factoque discordibus atque causa nodis tenet Achilles solvit omnis fluctus.`,
+  new Date(Date.UTC(2019, 3, 18))
 )
 
 const database: Database = {
@@ -84,7 +87,9 @@ export const CommentInMemory = (): CommentRepository => {
     },
     findBySpotId: spotId =>
       Promise.resolve(
-        Object.values(database).filter(comment => comment.spotId === spotId)
+        Object.values(database)
+          .filter(comment => comment.spotId === spotId)
+          .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
       ),
   }
 }
