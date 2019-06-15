@@ -49,7 +49,8 @@ omnes [regnum](http://imaginelibratum.com/obvius.html) certior vulnera.
     latitude: 48.909018,
     longitude: 2.2930765,
   },
-  'user-id-1'
+  'user-id-1',
+  ['skatepark', 'chill']
 )
 const skateparkCoubevoie = new Spot(
   'spot-2',
@@ -59,7 +60,8 @@ const skateparkCoubevoie = new Spot(
     latitude: 48.9017561,
     longitude: 2.235201,
   },
-  'user-id-1'
+  'user-id-1',
+  ['skatepark', 'football', 'bowl']
 )
 const espaceGlisseParis = new Spot(
   'spot-3',
@@ -114,7 +116,8 @@ dextra et non et Laestrygonis locorum posse se relinquet cedere!
     latitude: 48.899555,
     longitude: 2.3630618,
   },
-  'user-id-2'
+  'user-id-2',
+  ['skatepark', 'bowl']
 )
 const skateparkBourse = new Spot(
   'spot-4',
@@ -124,7 +127,8 @@ const skateparkBourse = new Spot(
     latitude: 48.8685633,
     longitude: 2.3417836,
   },
-  'user-id-1'
+  'user-id-1',
+  ['skatepark', 'paris', 'street']
 )
 
 const database: Database = {

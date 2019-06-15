@@ -14,6 +14,7 @@ interface MutationResolver {
         description: string | null
         latitude: number
         longitude: number
+        tags: string[]
       }
     },
     context: GraphlQlContext
@@ -50,6 +51,7 @@ interface SpotResolver {
     args: null,
     ctx: GraphlQlContext
   ) => Promise<CommentModel[]>
+  tags: (spot: SpotModel) => string[]
 }
 
 const Spot: SpotResolver = {
@@ -64,6 +66,7 @@ const Spot: SpotResolver = {
   },
   comments: (spot, _args, context) =>
     context.repositories.comment.findBySpotId(spot.id),
+  tags: spot => spot.tags.map(tag => `#${tag}`),
 }
 
 const Query: QueryResolver = {
@@ -86,6 +89,7 @@ const Mutation: MutationResolver = {
         longitude: input.longitude,
       },
       authorId: context.services.authentication.getCurrentUser().id,
+      tags: input.tags,
     }),
 }
 

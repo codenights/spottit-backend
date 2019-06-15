@@ -8,6 +8,7 @@ export const SpotSchema = gql`
     location: Location!
     author: User!
     comments: [Comment!]!
+    tags: [String!]!
   }
 
   input CreateSpotInput {
@@ -15,6 +16,7 @@ export const SpotSchema = gql`
     description: String
     latitude: Float!
     longitude: Float!
+    tags: [String!]!
   }
 
   input SpotsFilterInput {

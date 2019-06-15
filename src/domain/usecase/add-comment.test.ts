@@ -17,7 +17,8 @@ const getTestSpot = (): Spot =>
       latitude: 0.1,
       longitude: 1,
     },
-    'author-id'
+    'author-id',
+    ['tag-1']
   )
 
 const getTestUser = (): User =>

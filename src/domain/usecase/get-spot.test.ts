@@ -32,7 +32,8 @@ it('should resolve the spot', async () => {
       latitude: 0,
       longitude: 0,
     },
-    'user-id-1'
+    'user-id-1',
+    ['tag-1']
   )
   ;(spotRepository.findById as jest.Mock).mockResolvedValue(spot)
 

@@ -17,7 +17,8 @@ beforeEach(() => {
           latitude: 0,
           longitude: 0,
         },
-        'user-id-1'
+        'user-id-1',
+        ['tag-1']
       ),
     ]),
     findById: jest.fn(),
@@ -134,7 +135,8 @@ it('should resolve the new spot', async () => {
         latitude: 0,
         longitude: 0,
       },
-      'user-id-1'
+      'user-id-1',
+      ['tag-1']
     ),
   ])
 })

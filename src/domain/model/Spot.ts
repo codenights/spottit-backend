@@ -6,6 +6,7 @@ export class Spot {
     public name: string,
     public description: string | null,
     public location: Location,
-    public authorId: string
+    public authorId: string,
+    public tags: string[]
   ) {}
 }
