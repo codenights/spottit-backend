@@ -28,7 +28,7 @@
     "koa": "2.7.0",
     "koa-bodyparser": "4.2.1",
     "koa-route": "3.2.0",
-    "lodash.merge": "4.6.1",
+    "lodash.merge": "4.6.2",
     "node-uuid": "1.4.8"
   },
   "devDependencies": {
