@@ -56,6 +56,6 @@
     "jest-watch-typeahead": "0.3.1",
     "prettier": "1.18.2",
     "ts-jest": "24.0.2",
-    "typescript": "3.5.2"
+    "typescript": "3.5.3"
   }
 }
