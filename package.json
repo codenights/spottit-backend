@@ -18,7 +18,7 @@
   "dependencies": {
     "@hapi/joi": "15.1.0",
     "@koa/cors": "3.0.0",
-    "apollo-server-koa": "2.6.9",
+    "apollo-server-koa": "2.9.4",
     "awilix": "4.2.2",
     "awilix-koa": "3.1.0",
     "axios": "0.19.0",
