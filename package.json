@@ -22,7 +22,7 @@
     "awilix": "4.2.2",
     "awilix-koa": "3.1.0",
     "axios": "0.19.0",
-    "dotenv": "8.0.0",
+    "dotenv": "8.2.0",
     "faker": "4.1.0",
     "graphql": "14.2.1",
     "koa": "2.7.0",
